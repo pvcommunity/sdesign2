@@ -1,0 +1,33 @@
+/* This is the CSS for the notifications that users may come
+ * across. User will see these notifications at least on the
+ * registration pages as well as the login page, if there is 
+ * any error or any prompt to go to the next step of the  
+ * process.
+ *
+ * Created By: Ashley Brown
+ */
+
+#success, #error {
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+#success{
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    
+}
+#error{
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+div ul{
+    list-style-type: none;
+    list-style-position: inside;
+    display: table-row;
+    text-align: left;
+}
+
+div ul li {
+    padding-left: 5px;
+}
