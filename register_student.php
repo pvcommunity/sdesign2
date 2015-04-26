@@ -27,15 +27,14 @@ if(!empty($_POST))
 	$email = trim($_POST["email"]);
 	list($username, $domain) = explode("@", $email);
 	$check_email = strpos($email, "@student.pvamu.edu");
-     $first_name = trim($_POST["firstname"]);
+        $first_name = trim($_POST["firstname"]);
 	$last_name = trim($_POST["lastname"]);
 	$displayname = $first_name." ".$last_name;
 	$password = trim($_POST["password"]);
 	$confirm_pass = trim($_POST["passwordc"]);
 	$captcha = md5($_POST["captcha"]);
-     $classification =$_POST["classification"];
+        $classification =$_POST["classification"];
 	$gender = $_POST["gender"];
-	$id = NULL;
 	
 	if ($captcha != $_SESSION['captcha'])
 	{
@@ -45,14 +44,14 @@ if(!empty($_POST))
 	{
 		$errors[] = lang("ACCOUNT_USER_CHAR_LIMIT",array(5,25));
 	}
-	if($check_email=== FALSE)
+	if($check_email === FALSE)
 	{
 		$errors[] = lang("ACCOUNT_STUDENT_INVALID_EMAIL");
 	}
-	if(minMaxRange(8,50,$password) && minMaxRange(8,50,$confirm_pass))
+	/*if(minMaxRange(8,50,$password) && minMaxRange(8,50,$confirm_pass))
 	{
 		$errors[] = lang("ACCOUNT_PASS_CHAR_LIMIT",array(8,50));
-	}
+	}*/
 	else if($password != $confirm_pass)
 	{
 		$errors[] = lang("ACCOUNT_PASS_MISMATCH");
@@ -65,7 +64,7 @@ if(!empty($_POST))
 	if(count($errors) == 0)
 	{	
 		//Construct a user object
-		$user = new Student($username,$displayname,$password,$email,$gender,$classification,$id);
+		$user = new Student($username,$displayname,$password,$email,$gender,$classification);
 		
 		//Checking this flag tells us whether there were any errors such as possible data duplication occured
 		if(!$user->status)
@@ -92,8 +91,15 @@ if(!empty($_POST))
 echo "
 <title>Register</title>
 <link rel='stylesheet' type='text/css' href='resources/css/Registration (2).css'>
+<link rel='stylesheet' type='text/css' href='resources/css/AssembledStylesheet.css'>
 <link rel='stylesheet' type='text/css' href='resources/css/Notifications.css'>
 <script type='text/javascript' src='models/funcs.js'></script>
+
+<style>
+body {
+    background: #660066 url('resources/images/bg4.jpg') repeat;
+}
+</style>
 ";
 
 require 'models/site-templates/top.php';

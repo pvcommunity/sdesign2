@@ -25,7 +25,11 @@ and open the template in the editor.
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
-   
+    <style>
+    body {
+        background: #660066 url('resources/images/bg4.jpg') repeat;
+    }
+    </style>
 </head>
 
 <body>
@@ -104,7 +108,7 @@ and open the template in the editor.
                 <div class="col-sm-4">
                     
                     <center>
-                    <img src="http://i62.tinypic.com/2mgppab.jpg" alt="will replace with asley. only for testing purposes".> &emsp;&emsp;
+                    <img src="http://i62.tinypic.com/2mgppab.jpg" alt="will replace with asley. only for testing purposes" style="height:150px; width:150px;"> &emsp;&emsp;
                         <img  src="http://i62.tinypic.com/2mgppab.jpg" alt="">&emsp;&emsp;
                         <img class="img-responsive" src="http://i62.tinypic.com/2ev409z.jpg" alt="">
                        <h3>
@@ -124,7 +128,7 @@ and open the template in the editor.
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; PV Student Community 2014</p>
+                    <center> <p>Copyright &copy; PV Student Community 2014</p></center>
                 </div>
             </div>
         </div>

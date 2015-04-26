@@ -110,6 +110,11 @@ if(!empty($_POST))
 echo "
 <title>Login</title>
 <link rel='stylesheet' type='text/css' href='resources/css/Notifications.css'>
+<style>
+    body {
+        background: #660066 url('resources/images/bg4.jpg') repeat;
+    }
+    </style>
 ";
 
 echo "

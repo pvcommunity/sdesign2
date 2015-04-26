@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
 <head>
-<head>
    <link rel='stylesheet' type='text/css' href='resources/css/PersonalityQuiz.css'</link>
 <style type="text/css">
  .QRP { cursor:hand; cursor:pointer;
@@ -16,6 +15,14 @@ function toggle(Info) {
 }
 
 </script>
+
+<style>
+    body {
+        background: #660066 url('resources/images/bg4.jpg') repeat;
+    }
+</style>
+
+<title>Quiz Results</title>
 </head>
 <body>
 <div class='container'>

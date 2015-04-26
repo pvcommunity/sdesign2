@@ -43,7 +43,7 @@ if(!empty($_POST))
         $city = $_POST["city"];
         $state = $_POST["state"];
         $zipcode = $_POST["zipcode"];
-        $e_name = "";// $_POST["emp-name"];
+        
 	
 	
 	if ($captcha != $_SESSION['captcha'])
@@ -72,8 +72,8 @@ if(!empty($_POST))
 		//Checking this flag tells us whether there were any errors such as possible data duplication occured
 		if(!$user->status)
 		{
-			//if($user->username_taken) $errors[] = lang("ACCOUNT_USERNAME_IN_USE",array($username));
-			//if($user->displayname_taken) $errors[] = lang("ACCOUNT_DISPLAYNAME_IN_USE",array($displayname));
+			if($user->username_taken) $errors[] = lang("ACCOUNT_USERNAME_IN_USE",array($username));
+			if($user->displayname_taken) $errors[] = lang("ACCOUNT_DISPLAYNAME_IN_USE",array($displayname));
 			if($user->email_taken) 	  $errors[] = lang("ACCOUNT_EMAIL_IN_USE",array($email));		
 		}
 		else
@@ -95,6 +95,11 @@ echo "
 <title>Register</title>
 <link rel='stylesheet' type='text/css' href='resources/css/Registration (2).css'> 
 <link rel='stylesheet' type='text/css' href='resources/css/Notifications.css'>
+<style>
+    body {
+        background: #660066 url('resources/images/bg4.jpg') repeat;
+    }
+    </style>
 ";
 
 require 'models/site-templates/top.php';

@@ -44,33 +44,20 @@ if(!empty($_POST))
     $p_smoking = $_POST["p_smoking"];
     $p_smoking_imp = $_POST["p_smoking_imp"];
     
-    $user = NULL;
-    $display = NULL;
-    $pass = NULL;
-    $email = NULL;
-    $gender = NULL;
-    $classification = NULL;
-    /*switch($p_rent[])
-    {
-	case "<$500":
-	case "":
-    }*/
     
     //count($errors) = 0;
     if(count($errors) == 0)
     {
-        /*$row = fetchStudent($s_id);
-        $student = Student($row[id],$row[user_name],$row[display_name],$row[password],$row[email],$row[gender],$row[classification]);*/
-        $student = new Student($user,$display,$pass,$email,$gender,$classification,$s_id);
-	$student->set_about_me($s_id,$s_major,$s_self_stmt,$s_social,$s_sleep,$s_cleaning);
-	$student->set_preferences($s_id,$r_major,$r_major_imp,$r_social,$r_social_imp,$r_sleep,$r_sleep_imp,$r_cleaning,$r_cleaning_imp,$p_type,$p_type_imp,$p_rent,$p_rent_imp,$p_sharing,$p_sharing_imp,$p_smoking,$p_smoking_imp);
+        $student_preferences = new Preferences($s_id);
+	$student_preferences->set_about_me($s_major,$s_self_stmt,$s_social,$s_sleep,$s_cleaning);
+	$student_preferences->set_preferences($r_major,$r_major_imp,$r_social,$r_social_imp,$r_sleep,$r_sleep_imp,$r_cleaning,$r_cleaning_imp,$p_type,$p_type_imp,$p_rent,$p_rent_imp,$p_sharing,$p_sharing_imp,$p_smoking,$p_smoking_imp);
         
         $successes[] = lang("ACCOUNT_PERSONALITY_QUIZ",array($id));
     }
 }
 
 echo"
-<title>Registration, Pt. 2</title>
+<title>About Me</title>
 <link rel='stylesheet' type='text/css' href='resources/css/PersonalityQuiz.css'>
 <!--<link rel='stylesheet' type='text/css' href='styles/bootstrap-3.2.0/css/bootstrap.min.css'>-->
 <link rel='stylesheet' type='text/css' href='resources/css/Notifications.css'>
@@ -83,6 +70,7 @@ echo"
     display: block;
     width: 50%;
     padding: 5px;
+    padding-left: 15px;
     margin-bottom: 20px;
     font-size: 21px;
     line-height: inherit;
@@ -90,49 +78,50 @@ echo"
     border: 0;
     border-bottom: 1px solid #e5e5e5;
 }
+body {
+    background: #660066 url('resources/images/bg4.jpg') repeat;
+}
 label{
     font-weight: bold;
 }
  h1 {
  font: Bernard MT Condensed; 
 }
+/*fieldset{
+    padding-left: 25px;
+}*/
+p {
+    padding-left:300px;
+}
+label,
+textarea{
+  display:inline-block;
+  vertical-align:middle;
+
+}
+
+label {
+    width: 20%;
+}
+
+span {
+    padding-left: 30%;
+]
 </style>
 ";
-
-echo"<body><div class='container'>
-<div id='wrapper'> 
-    <div id='logo'>
-       
-                  
-                    <br>
-                    <br>
-                    <br>
-                      <center><h1 style='font:Bernard MT Condensed;'><a href='#'>PV Student Community</a></h1></center>       
-					<br>
-					<br>
-                    <br>
-    </div>
-    <div id='menu'>
-    <center>
-            <ul>
-                    <li class='current_page_item'><a href='index.php'>Home</a></li>
-                    <li><a href='login.php'>Login</a></li>
-                    <li class ='last'><a href='faqs.php'>Question/Concerns</a></li>
-            </ul>
-            </center>
-    </div>
+require 'models/site-templates/top.php';
+echo"
 	
 	
-<center>
 <!--BANNER-->
-	<img src='resources/images/Preferences.png'>
+	<center><img src='resources/images/preferences.png'></center>
 			
 ";
 
 echo resultBlock($errors,$successes);
 echo "
 <form name='registration_pt2' action=' ".$_SERVER['PHP_SELF']."' method='post'>
-    <fieldset id='about-me'><legend>About Me:</legend>
+    <center><fieldset id='about-me'><legend>About Me</legend></center>
         <p>
         <label>Major:</label>
         <select name='s_major'>
@@ -182,7 +171,7 @@ echo "
         </select>
         </p>	
     </fieldset><br>
-    <fieldset id='roommate-pref'><legend>Roommate Preferences:</legend>
+    <center><fieldset id='roommate-pref'><legend>Roommate Preferences</legend></center>
 <p>
 			   <label>Major:</label>
 			   <select name='r_major'>
@@ -254,9 +243,9 @@ echo "
 			   </select>
 			   </p>	
     </fieldset><br>
-    <fieldset id='property-pref'><legend>Property Preferences:</legend>
-<p>
-                <label>Type of Residence:<label>
+    <center><fieldset id='property-pref'><legend>Property Preferences</legend></center>
+                            <p>
+                            <label>Residence Type:<label>
 			   <select name='p_type'>
                                 <option value='Apartment'>Apartment</option>
                                 <option value='Condo'>Condo</option>

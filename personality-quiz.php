@@ -20,9 +20,13 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
   <script src="vendors/jquery-1.11.1/jquery.min.js"></script>
   <script src="vendors/bootstrap-3.2.0/js/bootstrap.min.js"></script>
 
+<style>
+    body {
+        background: #660066 url('resources/images/bg4.jpg') repeat;
+    }
+</style>
 
-
-
+<title>Personality Quiz</title>
 <center> 
 <!--Personality Quiz stylesheet-->
 	<link rel='stylesheet' type='text/css' href='resources/css/PersonalityQuiz.css'</link>

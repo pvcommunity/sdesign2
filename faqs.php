@@ -46,6 +46,10 @@ echo"
 	
 }
 
+body {
+    background: #660066 url('resources/images/bg4.jpg') repeat;
+}
+
 </style>
 
 

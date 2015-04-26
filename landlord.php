@@ -6,8 +6,13 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 echo"<title>Landlord</title>
 <link rel='stylesheet' type='text/css' href='resources/css/Landlordstyle.css'</link>
 <!-- JQUERY AND AJAX UPLOAD STARTS HERE -->
-<script src='/js/jquery.min.js' type='text/javascript'></script>
-<!-- JQUERY AND AJAX UPLOAD STARTS HERE -->";
+<script src='resources/jquery-1.11.1/jquery.min.js' type='text/javascript'></script>
+
+<style>
+body {
+    background: #660066 url('resources/images/bg4.jpg') repeat;
+}
+</style>";
 echo"
     <!DOCTYPE html>
 <!--
@@ -44,7 +49,7 @@ Creator : Olivia Benjamin
 
 
 
-<h4>Welcome back</h4><h2>$loggedInUser->displayname</h2>
+<h4>Welcome back!</h4><h2>$loggedInUser->displayname</h2>
 
                                                 <p>Apartment Address: <br>
                                                     $loggedInUser->address<br>

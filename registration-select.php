@@ -5,7 +5,13 @@ and open the template in the editor.
 -->
 <?php
 echo"<title>Register</title>
-<link rel='stylesheet' type='text/css' href='resources/css/Registration.css'</link>";
+<link rel='stylesheet' type='text/css' href='resources/css/Registration.css'</link>
+
+<style>
+body {
+    background: #660066 url('resources/images/bg4.jpg') repeat;
+}
+</style>";
 
 require 'models/site-templates/top.php';
 ?>

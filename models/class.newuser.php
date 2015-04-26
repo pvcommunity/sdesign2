@@ -131,13 +131,13 @@ class User
 					title,
 					sign_up_stamp,
 					last_sign_in_stamp,
-					gender,
-					classification,
-					type,
-					address,
-					city,
-					state,
-					zipcode
+                                        gender,
+                                        classification,
+                                        type,
+                                        address,
+                                        city,
+                                        state,
+                                        zipcode
 					)
 					VALUES (
 					?,
@@ -186,36 +186,34 @@ class Student extends User
 {
     protected $s_id;
     
-    function __construct($user, $display, $pass, $email, $gender, $classification, $id) {
-        if($id == NULL){
-            //Used for display only
-            $this->displayname = $display;
+    function __construct($user, $display, $pass, $email, $gender, $classification) 
+    {
+        //Used for display only
+        $this->displayname = $display;
 
-            //Sanitize
-            $this->clean_email = sanitize($email);
-            $this->clean_password = trim($pass);
-            $this->username = sanitize($user);
+        //Sanitize
+        $this->clean_email = sanitize($email);
+        $this->clean_password = trim($pass);
+        $this->username = sanitize($user);
 
-            $this->gender = trim($gender);
-            $this->classification = trim($classification);
+        $this->gender = trim($gender);
+        $this->classification = trim($classification);
 
 
-            if(usernameExists($this->username))
-            {
-                    $this->username_taken = true;
-            }
-            else if(emailExists($this->clean_email))
-            {
-                    $this->email_taken = true;
-            }
-            else
-            {
-                    //No problems have been found.
-                    $this->status = true;
-            }
-        } else {
-            $s_id = $id;
+        if(usernameExists($this->username))
+        {
+                $this->username_taken = true;
         }
+        else if(emailExists($this->clean_email))
+        {
+                $this->email_taken = true;
+        }
+        else
+        {
+                //No problems have been found.
+                $this->status = true;
+        }
+    
     }
     
     function userCakeAddUser()
@@ -322,122 +320,33 @@ class Student extends User
                                             )");
 
                                     $stmt->bind_param("sssssiss", $this->username, $this->displayname, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->gender, $this->classification);
-                                    $stmt->execute();
-                                    $inserted_id = $mysqli->insert_id;
-                                    $stmt->close();
+                                        $stmt->execute();
+                                        $inserted_id = $mysqli->insert_id;
+                                        $stmt->close();
 
-                                    //Insert default permission into matches table
-                                    $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."user_permission_matches  (
-                                            user_id,
-                                            permission_id
-                                            )
-                                            VALUES (
-                                            ?,
-                                            '3'
-                                            )");
-                                    $stmt->bind_param("s", $inserted_id);
-                                    $stmt->execute();
-                                    $stmt->close();
-                            }
-                            $this->success = lang("ACCOUNT_REGISTRATION_COMPLETE_TYPE_STUDENT1",array($this->username,$inserted_id));
-                    }	
+                                        //Insert default permission into matches table
+                                        $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."user_permission_matches  (
+                                                user_id,
+                                                permission_id
+                                                )
+                                                VALUES (
+                                                ?,
+                                                '3'
+                                                )");
+                                        $stmt->bind_param("s", $inserted_id);
+                                        $stmt->execute();
+                                        $stmt->close();
+                                }
+				$this->success = lang("ACCOUNT_REGISTRATION_COMPLETE_TYPE_STUDENT1",array($this->username,$inserted_id));
+			}	
 
 
 
             }
     }
     
-    function set_about_me($s_id,$s_major,$s_self_stmt,$s_social,$s_sleep,$s_cleaning)
-        {
-            global $mysqli,$db_table_prefix;
-            $this->id = $s_id;
-            $this->major = $s_major;
-            $this->self_stmt = $s_self_stmt;
-            $this->social_habit = $s_social;
-            $this->sleep_habit = $s_sleep;
-            $this->cleaning_habit = $s_cleaning;
-            
-            $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."about_me (
-                s_id,
-                s_major,
-                s_self_stmt,
-                s_social,
-                s_sleep,
-                s_cleaning
-                )
-                VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?
-                )");
-            $stmt->bind_param("isssss", $this->id, $this->major, $this->self_stmt, $this->social_habit, $this->sleep_habit, $this->cleaning_habit);
-            $stmt->execute();
-            $inserted_id = $mysqli->insert_id;
-            $stmt->close();
-        }
-        
-        function set_preferences($s_id,$r_major,$r_major_imp,$r_social,$r_social_imp,$r_sleep,$r_sleep_imp,$r_cleaning,$r_cleaning_imp,$p_type,$p_type_imp,$p_rent,$p_rent_imp,$p_sharing,$p_sharing_imp,$p_smoking,$p_smoking_imp)
-        {
-            global $mysqli,$db_table_prefix;
-            
-            $this->id = $s_id;
-            $this->r_major = array('ans'=>$r_major,'imp'=>$r_major_imp);
-            $this->r_social = array('ans'=>$r_social,'imp'=>$r_social_imp);
-            $this->r_sleep = array('ans'=>$r_sleep,'imp'=>$r_sleep_imp);
-            $this->r_cleaning = array('ans'=>$r_cleaning,'imp'=>$r_cleaning_imp);
-            $this->p_type = array('ans'=>$p_type,'imp'=>$p_type_imp);
-            $this->p_rent = array('ans'=>$p_rent,'imp'=>$p_rent_imp);
-            $this->p_sharing = array('ans'=>$p_sharing,'imp'=>$p_sharing_imp);
-            $this->p_smoking = array('ans'=>$p_smoking,'imp'=>$p_smoking_imp);
-            
-            $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
-                s_id,
-                r_major,
-		r_major_imp,
-                r_social,
-		r_social_imp,
-                r_sleep,
-		r_sleep_imp,
-                r_cleaning,
-		r_cleaning_imp,
-                p_type,
-		p_type_imp,
-                p_rent,
-		p_rent_imp,
-                p_sharing,
-		p_sharing_imp,
-                p_smoking,
-		p_smoking_imp
-                )
-                VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?
-                )");
-            $stmt->bind_param('isisisisisisisisi', $this->id, $this->r_major['ans'], $this->r_major['imp'], $this->r_social['ans'], $this->r_social['imp'], $this->r_sleep['ans'], $this->r_sleep['imp'], $this->r_cleaning['ans'], $this->r_cleaning['imp'], $this->p_type['ans'], $this->p_type['imp'], $this->p_rent['ans'], $this->p_rent['imp'], $this->p_sharing['ans'], $this->p_sharing['imp'], $this->p_smoking['ans'], $this->p_smoking['imp']);
-            $stmt->execute();
-            $inserted_id = $mysqli->insert_id;
-            $stmt->close();
-        }
 }
-    
+
 
 class Property extends User
 {
@@ -450,8 +359,10 @@ class Property extends User
         protected $owner;
         protected $submitter;
                 
-	function __construct($user,$display,$pass,$email,$type,$address,$city,$state,$zipcode,$owner,$submitter)
+	function __construct($user,$display,$pass,$email,$type,$address,$city,$state,$zipcode,$owner)
 	{
+                $this->username = $user;
+                
 		//Used for display only
 		$this->displayname = $display;
 		
@@ -461,7 +372,7 @@ class Property extends User
 		$this->username = sanitize($user);
                
                 $this->owner = $owner;
-                $this->submitter = $submitter;
+                
                 $this->type = $type;
                 $this->address = $address;
                 $this->city = $city;
@@ -566,8 +477,7 @@ class Property extends User
 					address,
 					city,
 					state,
-					zipcode,
-                                        submitter_name
+					zipcode
 					)
 					VALUES (
 					?,
@@ -588,11 +498,10 @@ class Property extends User
 					?,
 					?,
 					?,
-					?,
-                                        ?
+					?
 					)");
 				
-				$stmt->bind_param("sssssisssssis", $this->username, $this->displayname, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->owner, $this->type, $this->address, $this->city, $this->state, $this->zipcode, $this->submitter);
+				$stmt->bind_param("sssssisssssi", $this->username, $this->displayname, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->owner, $this->type, $this->address, $this->city, $this->state, $this->zipcode);
 				$stmt->execute();
 				$inserted_id = $mysqli->insert_id;
 				$stmt->close();

@@ -24,7 +24,7 @@ function check_user($user){
      return($title);
  }
  
- /*function fetchUserId($user){
+ function fetchUserId($user){
      global $mysqli,$db_table_prefix;
      $stmt = $mysqli->prepare("SELECT
                 id
@@ -40,7 +40,7 @@ function check_user($user){
      }
      $stmt->close();
      return($id);
- }*/
+ }
 function fetchStudent($id)
 {
     if($id != NULL) {

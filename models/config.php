@@ -43,6 +43,7 @@ require_once($language);
 require_once("class.mail.php");
 require_once("class.user.php");
 require_once("class.newuser.php");
+require_once("class.personalityquiz.php");
 require_once("funcs.php");
 
 session_start();
