@@ -111,7 +111,7 @@ b, strong{
 color:#dfc326;
 text-decoration:none;
 font-family:"century gothic";
-font-size:11px;
+font-size:25px;
 }
 
 i, em{
@@ -165,9 +165,9 @@ require_once('models/config.php');
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 echo "
 
-<h1>Hello<strong><big>$loggedInUser->displayname</big></strong></h1>
+<h1>Hello <strong><big>$loggedInUser->displayname</big></strong></h1>
 		<br>
-		<img src='styles/images/blank_avatar.jpg'> 
+		<img src='resources/images/blank_avatar.jpg'> 
 		<br>                  
 		<a href=#><small><u>edit picture</u></small></a>
 		<br>
@@ -179,7 +179,7 @@ echo "
 		<br>
 		<i>'self statement'</i>
 		<br>
-		<a href=#><img src='styles/images/message.jpg' style='height:20px; width=30px'></a>       
+		<a href=#><img src='resources/images/message.jpg' style='height:20px; width=30px'></a>       
 
 
 <h1>Personality Type</h1>
