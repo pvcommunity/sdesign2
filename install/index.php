@@ -153,18 +153,6 @@ if(isset($_GET["install"]))
 	(13, 2, 17);
 	";
 	
-	$about_me_sql = "CREATE TABLE IF NOT EXISTS `".$db_table_prefix."about_me` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`s_id` int(11) NOT NULL,
-	`s_major` varchar(100) NOT NULL,
-	`s_self_stmt` varchar(180) NOT NULL,
-	`s_social` varchar(100) NOT NULL,	
-	`s_sleep` varchar(100) NOT NULL,
-	`s_cleaning` varchar(100) NOT NULL,
-	PRIMARY KEY(`id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-	";
-	
 	$personality_quiz_sql = "CREATE TABLE IF NOT EXISTS `".$db_table_prefix."personality_quiz` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`s_id` int(11) NOT NULL,
@@ -177,22 +165,19 @@ if(isset($_GET["install"]))
 	$preferences_sql = "CREATE TABLE IF NOT EXISTS `".$db_table_prefix."preferences` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`s_id` int(11) NOT NULL,
-	`r_major` varchar(100) NOT NULL,
-	`r_major_imp` tinyint(4) NOT NULL,
-	`r_social` varchar(100) NOT NULL,
-	`r_social_imp` tinyint(4) NOT NULL,
-	`r_sleep` varchar(100) NOT NULL,
-	`r_sleep_imp` tinyint(4) NOT NULL,
-	`r_cleaning` varchar(100) NOT NULL,
-	`r_cleaning_imp` tinyint(4) NOT NULL,
+	`self_stmt` varchar(180) NOT NULL,
+	`major` varchar(100) NOT NULL,
+	`major_imp` tinyint(4) NOT NULL,
+	`social` varchar(100) NOT NULL,
+	`social_imp` tinyint(4) NOT NULL,
+	`sleep` varchar(100) NOT NULL,
+	`sleep_imp` tinyint(4) NOT NULL,
+	`cleaning` varchar(100) NOT NULL,
+	`cleaning_imp` tinyint(4) NOT NULL,
 	`p_type` varchar(100) NOT NULL,
-	`p_type_imp` tinyint(4) NOT NULL,
 	`p_rent` varchar(100) NOT NULL,
-	`p_rent_imp` tinyint(4) NOT NULL,
 	`p_sharing` varchar(100) NOT NULL,
-	`p_sharing_imp` tinyint(4) NOT NULL,
 	`p_smoking` varchar(100) NOT NULL,
-	`p_smoking_imp` tinyint(4) NOT NULL,
 	PRIMARY KEY(`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 	";
@@ -414,17 +399,6 @@ if(isset($_GET["install"]))
 	else
 	{
 		echo "<p>Error constructing users table.</p>";
-		$db_issue = true;
-	}
-	
-	$stmt = $mysqli->prepare($about_me_sql);
-	if($stmt->execute())
-	{
-		echo "<p>".$db_table_prefix."about_me table created.....</p>";
-	}
-	else
-	{
-		echo "<p>Error constructing about_me table.</p>";
 		$db_issue = true;
 	}
 	
