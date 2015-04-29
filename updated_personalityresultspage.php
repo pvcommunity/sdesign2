@@ -105,32 +105,36 @@ function toggle(Info) {
             
           <div id="content-area">
 			            <div class="view view-page view-id-page view-display-id-page_1 img-plain view-dom-id-dad9922c7280c210042a75c81889f82e">
- 
-                                        
- 
-   
-           
-           
-
-           
-           
-           
-           
+  
  <?php 
+ // INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
+ //require_once("models/config.php"); 
 
-            $question1 = $_POST['question1'];
-            $question2 = $_POST['question2'];
-            $question3 = $_POST['question3'];
-            $question4 = $_POST['question4'];
-            //$questions = array('question1','question2','question3','question4');
- echo"<center>";
- echo " <div>";
-            session_start();
-            $Quizresults = $question1. $question2. $question3. $question4;
-            $_SESSION['QuizResults'] = $Quizresults;
+// INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
+ //require_once("models/config.php"); 
+
+//global $mysqli, $db_table_prefix;
+$question1 = $_POST['question1'];
+$question2 = $_POST['question2'];
+$question3 = $_POST['question3'];
+$question4 = $_POST['question4']; 
+//$mysql_query = "INSERT INTO personalityresults(question1,question2,question3,question4) VALUES ('$question1','$quizresults','$question3','$question4')";
+// ^^^^^^^^^^ inserts questions into database^^ move to different page ^^^^^^^
+// 
+//$questions = array('question1','question2','question3','question4');
+echo"<center>";
+echo " <div>";
+session_start();
+$Quizresults = $question1 . $question2 . $question3 . $question4;
+//$mysql= "INSERT INTO -personalityquiz ('quizresults') VALUES('$Quizresults')"; 
+//$mysql_query = "INSERT INTO ".$db_table_prefix." personality_results(s_id, date_completed, personality_result') VALUES (?, '".time()."',$Quizresults')";
+//$stmt -> bind_param("is", $s_id,$Quizresults);
+// ^^^^^^^^^^ QuizResults into into database^^^^^^^^^
+
+//$_SESSION['QuizResults'] = $Quizresults;
 echo "<div id='results'> Your result is </div>";
-echo "<div id='results'>$Quizresults </div>"; 
-echo "<br>";
+echo "<div id='results'>$Quizresults </div>";
+
          if ( $question1 == 'I' && $question2 == 'S' && $question3 == 'T' && $question4 == 'J')
          { 
              echo "General matches =  ESTJ, ISTJ, INTJ, ISTP, ESTP  ";
@@ -221,33 +225,78 @@ echo "<br>";
  
 echo"</center>";
 echo "</div>"; 
-       
-            
-     
- 
-echo "<br> 
+ ?>   
+<?php
+  echo"<br> 
        <br> 
        <center>
-       <form action='suggestedusers.php'  method='post'>
-    <input type ='hidden' name ='submit' value ='true'/>
+<form method='post'  action='suggestedusers.php'>
+<input type ='hidden' name ='submit' value ='true'/>
     
-    <center><label> Search Your Roommate Matches: </center>
-        <center>  <select name ='Category'>
-            <option value ='C_Matches'> Your Exact Matches </option>
-            <option value ='P_Matches'> Your Possible Matches</option> 
-        </select>
-    </label> 
-        <br>
-        <center>
-        <input value='$Quizresults. + $Pref_results.' name ='criteria'/></label>
-    <br><input type ='submit'/>     
-     
+<center>
+<label> Search Your Roommate Matches: </label> 
 </center>
-           <br> ";
-                                               
- ?>   
+<center>
+    <select name ='category'>
+        <option value ='quizresults' name ='quizresults'> Search Exact Matches </option>
+    </select>
+    
+        <br>
+     <label> Search Criteria: </label>
+        <br>
+        <input type = 'text'  name ='criteria' id = 'criteria' value='$Quizresults' />
+</center> 
+        <br><input type='submit' name='submit' value='Get Results' />    
+     </form>
+";
 
+
+
+//https://www.youtube.com/watch?v=IYmS5HRo6JI 
+if (isset($_POST ['submit'])) 
+    {
+    // connect to database
+   
+    mysql_connect("localhost","root","");
+    mysql_select_db("testdb");
+    $category = $_POST['category'];
+    $criteria = $_POST['criteria'];
+
+    // what they type in the text box
+    $sql = mysql_query("SELECT * FROM personalityresults WHERE $category LIKE '%".$criteria."%'");
+   
+    $Quizresults = 'quizresults';
+    $Firstname = 'Firstname';
+    $Lastname = 'Lastname';
+    echo"<table>";
+    echo"<tr>
+    <th> firstname</th><th>lastname</th>
+    <th>age</th></tr>";
+    while($row = mysql_fetch_array($sql))
+    {
+    
+      // query goes here 
+       echo"<tr><td>";
+     
+       echo $row[$Quizresults];
+       echo "</td><td>";
+        echo $row[$Firstname];
+       echo "</td><td>";
+        echo $row[$Lastname];      
+       echo "</td><tr>";
+        
+       
+ }
+ echo"";
+ echo"</table>"; 
+   // mysql_close($con);
+    }
+                                
+ ?>                                         
                                         
+                                        
+                                        
+                                       
 <br>
 
  <div class="view-content">
