@@ -269,6 +269,7 @@ class Student extends User
                     {
                             //Instant account activation
                             $this->user_active = 1;
+                            $this->success = lang("ACCOUNT_REGISTRATION_COMPLETE_TYPE_STUDENT1",array($this->username));
                             //$id = fetchUserId($this->username);
 
                             if(!$this->mail_failure)
@@ -287,14 +288,7 @@ class Student extends User
                                             sign_up_stamp,
                                             last_sign_in_stamp,
                                             gender,
-                                            classification,
-                                            owner_name,
-                                            type,
-                                            address,
-                                            city,
-                                            state,
-                                            zipcode,
-                                            submitter_name
+                                            classification
                                             )
                                             VALUES (
                                             ?,
@@ -309,14 +303,7 @@ class Student extends User
                                             '".time()."',
                                             '0',
                                             ?,
-                                            ?,
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            ''
+                                            ?
                                             )");
 
                                     $stmt->bind_param("sssssiss", $this->username, $this->displayname, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->gender, $this->classification);
@@ -337,7 +324,7 @@ class Student extends User
                                         $stmt->execute();
                                         $stmt->close();
                                 }
-				$this->success = lang("ACCOUNT_REGISTRATION_COMPLETE_TYPE_STUDENT1",array($this->username,$inserted_id));
+				
 			}	
 
 
@@ -523,4 +510,74 @@ class Property extends User
 	}
 }
 
+
+/*----------------------------------------------------------------------------------------------------------------------------------------------------
+Students Only!!!
+------------------------------------------------------------------------------------------------------------------------------------------------------*/
+class Preferences extends Student{
+    public $major;
+    public $social;
+    public $sleep;
+    public $clean;
+    public $p_type;
+    public $p_rent;
+    public $p_sharing;
+    public $p_smoking;
+    protected $s_id;
+
+    function __construct($id) 
+    {
+            $s_id = $id;
+    }
+    
+    function set_preferences($s_id,$self_stmt,$major,$major_imp,$social,$social_imp,$sleep,$sleep_imp,$clean,$clean_imp,$p_type,$p_rent,$p_sharing,$p_smoking)
+    {
+        global $mysqli,$db_table_prefix;
+            
+            $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
+                s_id,
+                self_stmt,
+                major,
+		major_imp,
+                social,
+		social_imp,
+                sleep,
+		sleep_imp,
+                cleaning,
+		cleaning_imp,
+                p_type,
+                p_rent,
+                p_sharing,
+                p_smoking
+                )
+                VALUES (
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+		?,
+		?,
+		?,
+		?,
+		?
+                )");
+            $stmt->bind_param("issisisisissss", $s_id, $self_stmt, $major, $major_imp, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp, $p_type, $p_rent, $p_sharing, $p_smoking);
+            $stmt->execute();
+            $inserted_id = $mysqli->insert_id;
+            $stmt->close();
+    }
+}
+
+class PersonalityQuiz extends Student {
+    protected $question1;
+    protected $question2;
+    protected $question3;
+    protected $question4;
+    protected $result;
+}
 ?>
