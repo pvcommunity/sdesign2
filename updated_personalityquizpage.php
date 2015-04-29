@@ -80,6 +80,7 @@
 
 
                         <form action="personalityresult.php"  method="post">
+                            <input type ="hidden" name ="submit" value =" true"/>
                             <!-- Insert whatever radio button questions you want here. -->
                             <br>
                             <br>
@@ -125,35 +126,31 @@
                         </form>           
 
 
-                        <footer>
-                            <div class='container'>
-                                <div class='row'>
-                                    <div class='col-lg-12 text-center'>
-                                        <p>Copyright &copy; PV Student Community 2014</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </footer>
-                        <br>
-                        <br>  
-                    </center>
-                </div>  
-            </div>  
-          
-
-    </center>
-</body>
-</html>
+                        
 <?php
+if (isset($_POST ['submit'])) 
+    {
+ // INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
+ //require_once("models/config.php"); 
+
+// global $mysqli, $db_table_prefix;
 $question1 = $_POST['question1'];
 $question2 = $_POST['question2'];
 $question3 = $_POST['question3'];
-$question4 = $_POST['question4'];
+$question4 = $_POST['question4']; 
+//$mysql_query = "INSERT INTO personalityresults(question1,question2,question3,question4) VALUES ('$question1','$quizresults','$question3','$question4')";
+// ^^^^^^^^^^ inserts questions into database^^ move to different page ^^^^^^^
+// 
 //$questions = array('question1','question2','question3','question4');
 echo"<center>";
 echo " <div>";
 session_start();
 $Quizresults = $question1 . $question2 . $question3 . $question4;
+$mysql= "INSERT INTO PersonalityQuiz ('quizresults') VALUES('$Quizresults')"; 
+//$mysqli_query = "INSERT INTO ".$db_table_prefix." personality_results(s_id, date_completed, personality_result') VALUES (?, '".time()."',$Quizresults')";
+//$stmt -> bind_param("is", $s_id,$Quizresults);
+// ^^^^^^^^^^ QuizResults into into database^^^^^^^^^
+
 $_SESSION['QuizResults'] = $Quizresults;
 echo "<div id='results'> Your result is </div>";
 echo "<div id='results'>$Quizresults </div>";
@@ -220,14 +217,31 @@ if ($question1 == 'E' && $question2 == 'N' && $question3 == 'T' && $question4 ==
 if ($question1 == 'E' && $question2 == 'N' && $question3 == 'T' && $question4 == 'J') {
     echo "Best matches =  ESTJ, ISTP, ENTJ, ENFJ, INTJ";
 }
-
+    }
 echo"</center>";
 echo "</div>";
 ?> 
 
 
+<footer>
+                            <div class='container'>
+                                <div class='row'>
+                                    <div class='col-lg-12 text-center'>
+                                        <p>Copyright &copy; PV Student Community 2014</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                        <br>
+                        <br>  
+                    </center>
+                </div>  
+            </div>  
+          
 
-
+    </center>
+</body>
+</html>
 
 
 ?>   
