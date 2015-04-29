@@ -1,17 +1,69 @@
-<!DOCTYPE html>
+    
+   <!DOCTYPE html>
 <html lang='en'>
 
 <head>
 
-<center> <link rel='stylesheet' type='text/css' href='resources/css/FAQs.css'</link>
+<center> <link rel='stylesheet' type='text/css' href='styles/FAQs.css'</link>
 
 <!-- jQuery -->
-    <script src='vendors/jquery-1.11.1/jquery.min.js'></script>
+    <script src='js/jquery.js'></script>
 
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
-</head>
+    <style>
+ 
+#keywords {
+  margin: 0 auto;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+
+#keywords thead {
+  cursor: pointer;
+  background: #C299C2;
+}
+#keywords thead tr th { 
+  font-weight: bold;
+  padding: 12px 30px;
+  padding-left: 42px;
+}
+#keywords thead tr th span { 
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+}
+
+#keywords thead tr th.headerSortUp, #keywords thead tr th.headerSortDown {
+  background: #acc8dd;
+}
+
+#keywords thead tr th.headerSortUp span {
+  background-image: url('http://i.imgur.com/SP99ZPJ.png');
+}
+#keywords thead tr th.headerSortDown span {
+  background-image: url('http://i.imgur.com/RkA9MBo.png');
+}
+
+
+#keywords tbody tr { 
+  color: #555;
+}
+#keywords tbody tr td {
+  text-align: center;
+  padding: 15px 10px;
+}
+#keywords tbody tr td.lalign {
+  text-align: left;
+}   
+    
+  </style>  
+    
+    
+    
+    </head>
 
 <body>
 
@@ -32,75 +84,95 @@
 		<ul>
 			<li class='current_page_item'><a href='index.php'>Home</a></li>
 			<li><a href='login.php'>Login</a></li>
-			<li class ='last'><a href='faqs.php'>Question/Concerns</a></li>
+			<li class ='last'><a href=#>Question/Concerns</a></li>
 		</ul>
 	</div>
 	<center>
 			<br>
 			<img src='images/mhmm.png'>
-			
-		
-<table style="width:50%">
-  <tr>
-    <td>Student Name 1 *to be extracted*</td>
-	<td>Gender: *to be extracted using students primary key from database*</td>
-  </tr>
-  <tr>
-	<td>Student Picture</td>
-	<td>Classification: *to be extracted using students primary key from database*</td> 
-  </tr>
-</table>	
-<br>
-<table style="width:50%">
-  <tr>
-	 <td>Student Name 2*to be extracted*</td>
-	 <td>Gender: *to be extracted using students primary key from database*</td>
-	
-  </tr>
-  <tr>
-	<td>Student Picture</td>
-    <td>Classification: *to be extracted using students primary key from database*</td> 
-  </tr>
-</table>	
-<br>
-<table style="width:50%">
-  <tr>
-    <td>Student Name 3 *to be extracted*</td>
-	<td>Gender: *to be extracted using students primary key from database*</td>
-  </tr>
-  <tr>
-    <td>Student Picture</td>
-    <td>Classification: *to be extracted using students primary key from database*</td> 
-  </tr>
-</table>	
-<br>
-<table style="width:50%">
-  <tr>
-    <td>Student Name 4 *to be extracted*</td>
-	<td>Gender: *to be extracted using students primary key from database*</td>
-  </tr>
-  <tr>
-    <td>Student Picture</td>
-    <td>Classification: *to be extracted using students primary key from database*</td> 
-  </tr>
-</table>	
-<br>
-<table style="width:50%">
-  <tr>
-    <td>Student Name 5 *to be extracted*</td>
-	<td>Gender: *to be extracted using students primary key from database*</td>
-  </tr>
-  <tr>
-    <td>Student Picture</td>
-    <td>Classification: *to be extracted using students primary key from database*</td> 
-  </tr>
-</table>	
-<br>
+
+
+    
+   <?php
+
+if (isset($_POST ['submit'])) 
+    {
+    // connect to database
+   
+    mysql_connect("localhost","root","");
+    mysql_select_db("testdb");
+    $category = $_POST['category'];
+    $criteria = $_POST['criteria'];
+
+    // what they type in the text box
+    $sql = mysql_query("SELECT * FROM personalityresults WHERE $category LIKE '%".$criteria."%'");
+    
+    $Quizresults = 'quizresults';
+    $Firstname = 'Firstname';
+    $Lastname = 'Lastname';
+     if (mysql_num_rows($sql) == 0)
+              
+      {
+     echo"<table id='keywords' cellspacing='0' cellpadding='0'>";
+    echo"<tr>
+     <thead>   
+    <th> First name</th><th>Last name</th>
+    <th>Quiz Results </th></tr>
+    </thead>";    
+         echo"<tr><td>";
+        echo "No Matches Found";
+       echo "</td><td>";
+         echo "No Matches Found";
+       echo "</td><td>";
+        echo "No Matches Found";
+       echo "</td><tr>";
+       echo"";
+ echo"</table>"; 
+      }
+ else {
+    echo"<table id='keywords' cellspacing='0' cellpadding='0'>";
+    echo"<tr>
+     <thead>   
+    <th> First name</th><th>Last name</th>
+    <th>Quiz Results </th></tr>
+    </thead>";
+    while($row = mysql_fetch_array($sql))
+    {
+        
+     
+          
+
+      // query goes here 
+       echo"<tr><td>";
+     
+        echo $row[$Firstname];
+       echo "</td><td>";
+         echo $row[$Lastname]; 
+       echo "</td><td>";
+      
+        echo $row[$Quizresults];
+       echo "</td><tr>";
+        
+    }
+    echo"";
+ echo"</table>"; 
+ }
+ 
+   // mysql_close($con);
+    }
+                                
+ ?>                                         
+                       
+    
+    
+    
+    
+    
+    
+</div>
 
 </div>
-</div>
-
-   <footer>
+  <footer>
         <div class='container'>
             <div class='row'>
                 <div class='col-lg-12 text-center'>
@@ -109,15 +181,6 @@
             </div>
         </div>
     </footer>
-
-    
-
-    <!-- Bootstrap Core JavaScript 
-    <script src='js/bootstrap.min.js'></script>-->
 </center>
-<?php
-
-
-?>
 </body>
 </html> 
