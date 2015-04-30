@@ -100,7 +100,7 @@ function toggle(Info) {
 	
 <center>
 <!--BANNER-->
-	<img src='images/PersonalityQuiz.png'>
+	<img src='resources/images/PersonalityQuiz.png'>
 			
             
           <div id="content-area">
