@@ -79,7 +79,7 @@
                         <tr>
 
 
-                        <form action="personalityresult.php"  method="post">
+                        <form action="updated_personalityresults.php"  method="post">
                             <input type ="hidden" name ="submit" value =" true"/>
                             <!-- Insert whatever radio button questions you want here. -->
                             <br>
@@ -120,7 +120,7 @@
                             <br>
                             <button class="next">next</button>
                             <br>
-                            <input type="submit" name="submit" value="Get Results" />
+                            <input type="submit" name="submit" value="Get Results" onClick="javascript:window.location=updated_personalityresults.php;" />
 
 
                         </form>           
