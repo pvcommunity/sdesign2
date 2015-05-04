@@ -1,22 +1,19 @@
 <?php
-
 require_once("models/config.php");
 if(!securePage($_SERVER['PHP_SELF'])){die();}
-
     $user = $_REQUEST["user"];
     //echo $user;
     $id = fetchUserId($user);
     //echo $id;
-
-
-    
+    //$pref = new Preferences($id);
+    //$test = get_preferences($id);
     
 // Forms posted
 if(!empty($_POST))
 {
     $errors = array();
     
-    $s_id = $_GET["s_id"];
+    //$s_id = $_GET["s-id"];
     $major = $_POST["major"];
     $self_stmt = $_POST["self_stmt"];
     $social = $_POST["social"];
@@ -35,72 +32,126 @@ if(!empty($_POST))
     
     if(count($errors) == 0)
     {
-        //*global $mysqli,$db_table_prefix;
-         $server="localhost";
-    $username="root";
-    $password="";
-    $db="pv_5.0";
-    $mysqli = new mysqli($server,$username,$password);
-    if ($mysqli->errno) 
-    {
-        printf("Unable to connect to the database:<br /> %s",
-        $mysqli->error);
-         exit();
-    }
-    $mysqli->select_db($db);
-        $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
-                s_id,
-                major,
-		major_imp,
-                self_stmt,
-                social,
-		social_imp,
-                sleep,
-		sleep_imp,
-                cleaning,
-		cleaning_imp,
-                p_type,
-                p_rent,
-                p_sharing,
-                p_smoking
-                )
-                VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-		?,
-		?,
-		?,
-		?,
-		?
-                )");
-            $stmt->bind_param('isisisisissss', $s_id, $major, $major_imp, $self_stmt, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp, $p_type, $p_rent, $p_sharing, $p_smoking);
-            $stmt->execute();
-            $inserted_id = $mysqli->insert_id;
-            $stmt->close();
-        //$student_preferences = new Preferences($s_id);
-	//$student_preferences->set_preferences($s_id,$major,$self_stmt,$major_imp,$social,$social_imp,$sleep,$sleep_imp,$clean,$clean_imp,$p_type,$p_rent,$p_sharing,$p_smoking);
+        $student_preferences = new Preferences($id);
+	$student_preferences->set_preferences($id,$self_stmt,$major,$major_imp,$social,$social_imp,$sleep,$sleep_imp,$clean,$clean_imp,$p_type,$p_rent,$p_sharing,$p_smoking);
         
-        //$url = "personalityquiz.php".$s_id;
-        header('Location:personality-quiz.php?id='.$s_id);
+        header("Location: personality-quiz.php?id=".$id."");
+       // $successes[] = lang("ACCOUNT_PERSONALITY_QUIZ",array($id));
+        
     }
-}
+   
+    
+                          
+ // INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
+ //require_once("models/config.php"); 
+$dbhost = 'localhost';
+$dbuser = 'root';
+$dbpass = '';
+$conn = mysql_connect($dbhost, $dbuser, $dbpass);
 
+            $combined = array( 
+                                $Pref_results = array (major => $s_major,
+                                                       social => $s_social,
+                                                       sleep => $s_sleep, 
+                                                       cleaning => $s_cleaning),
+                
+                                $Pref_Import = array (major_imp => $s_major_imp,
+                                                       social_imp => $s_social_imp,
+                                                       sleep_imp => $s_sleep_imp, 
+                                                       cleaning_imp => $s_cleaning_imp)
+                
+            );
+            
+         $compatibility = 0;     
+         $count = 0;
+         
+         
+        // database connection needs to be opened 
+            $sql = "SELECT FROM pv_prefernces".
+            "(major,major_imp,social,social_imp,sleep,sleep_imp,cleaning,cleaning_imp)".
+            " VALUES('$s_major','$s_major_imp','$s_social','$s_social_imp','$s_sleep','$s_sleep_imp','$s_cleaning','$s_cleaning_imp')"; 
+              mysql_select_db('PV_5.0');
+            $retval = mysql_query( $sql, $conn );
+            if(! $retval )
+            {
+              die('Could not enter data: ' . mysql_error());
+            }
+            echo "Entered data successfully\n";
+
+           // query is call to access the preference page where were are selecting from combined result 
+           $num_rows = mysqli_num_fields($dbcon, $query);
+           // inserts new table for count to the data base
+           //$squery = "SELECT pselect,pimport FROM Prefernce_results ";
+           //$sqldata = mysqli_query($dbcon, $squery) or die (' Issues Getting data ');
+           
+           
+           /*_while our connection is open a query need to loop through the tables*/
+           while ( $row = mysqli_fetch_assoc($retval, MYSQL_ASSOC))
+            {
+                for ( $a = 0; $a<$num_fields; $a++)
+                {
+                    //for ($b = 0; $b<$num_rows; $b++)
+                   // {
+                        for ($i = 0; $x <= $Pref_results.length; $i ++)
+                        {
+                            for($j = 0; $j <= $Pref_Import.lenght;$j ++)
+                            {
+                                // i need help calling the rows from database
+                                if($combined[$i][$j] == $row[$i][$j])
+                                { $count+5; $compatibility+1.0; }
+
+                                else if ( $combined[$j] && $row[$j] == 0 )
+                                {$count+5; $compatibility+1.0;}
+
+                                if ($combined[$i][$j] != $row[$i][$j]  
+                                        && $combined[$j] && $row[$j] == 25 )
+                                { $count+2; $compatibility+0.5;}
+                            }
+                            
+                     $mysql= "INSERT INTO Prefernce_results ('count') VALUES('$count')";    
+                     mysql_select_db('PV_5.0');
+                    }
+                    
+                       if( $count >= 11 )
+                            { 
+                                // results from the query search that matches the case must print here 
+                                // store matches in $match
+                                    
+                                    $match = $row['username'];
+                                    $mysql= "INSERT INTO Student_Profile ('matches') VALUES('$match')"; 
+                                    mysql_select_db('PV_5.0');
+                                // && print compatibility 
+                                echo " your compatibility score: $compatibility";
+                            }
+               
+                            else if($count >= 7 && $count <= 10 )
+                            {
+                                // store possible in $possible 
+                               // results from the query search that matches the case must print here 
+                                 $possible = $row['username'];
+                                 $mysql= "INSERT INTO Student_Profile ('possible_matches') VALUES('$possible')"; 
+                                 mysql_select_db('PV_5.0');
+                                 // && print compatibility 
+                                echo " your compatibility score: $compatibility";
+                            }
+                            else if($count<= 6 )
+                            { 
+                                echo " no matches found for preferences";
+                                echo " compatibitity score is to low";
+                            }     
+              }
+              
+            }
+                           
+}
 echo"
 <title>About Me</title>
 <link rel='stylesheet' type='text/css' href='resources/css/PersonalityQuiz.css'>
-<!--<link rel='stylesheet' type='text/css' href='styles/bootstrap-3.2.0/css/bootstrap.min.css'>-->
+<!--<link rel='stylesheet' type='text/css' href='vendors/bootstrap-3.2.0/css/bootstrap.min.css'>-->
 <link rel='stylesheet' type='text/css' href='resources/css/Notifications.css'>
 	
 <script type='text/javascript' src='vendors/jquery-1.11.1/jquery.min.js'></script>
 <script type='text/javascript' src='resources/js/sanwebe_char_counter.js'></script>
-
 <style>
     legend {
     display: block;
@@ -130,13 +181,10 @@ label,
 textarea{
   display:inline-block;
   vertical-align:middle;
-
 }
-
 label {
     width: 20%;
 }
-
 span {
     padding-left: 30%;
 ]
@@ -150,15 +198,15 @@ echo"
 	<center><img src='resources/images/preferences.png'></center>
 			
 ";
-
 echo resultBlock($errors,$successes);
+//echo "$id| $major| $major_imp| $self_stmt| $social| $social_imp| $sleep| $sleep_imp| $clean| $clean_imp| $p_type| $p_rent| $p_sharing| $p_smoking";
 echo "
 <form name='registration_pt2' action=' ".$_SERVER['PHP_SELF']."' method='post'>
     
     <center><fieldset id='about-me'><legend>About Me</legend></center>
         <!--  Student's id in a hidden form -->
-        <input type='text' name='s_id' value='".$id."'>
-        <input type='text' name='user' value='".$user."'>   
+        <input type='hidden' name='s_id' value='".$id."'>
+        <input type='hidden' name='user' value='".$user."'>   
         <p>
         <label>Major:</label>
         <select name='major'>
@@ -288,3 +336,11 @@ echo "
 </form>
 ";
 ?>
+<!-- ******************************************************Algorithm***********************************************************************-->
+<?php                        
+
+?>
+<a href="suggestedusers.php" title="">Go to suggested users</a>
+</div>
+</body>
+</html>
