@@ -121,9 +121,6 @@ echo resultBlock($errors,$successes);
 echo "
 <div id='regbox'>
 <form name='newUser' action='".$_SERVER['PHP_SELF']."' method='post'>
-
-<fieldset id='owner_info' style='display:block;'>
-<legend>On Behalf Of:</legend>
 <p>
 <label>Owner's First Name:</label>
 <input type='text' name='o-fname' class='form-control input-sm' required/>
@@ -136,7 +133,6 @@ echo "
 <label>Owner's Email:</label>
 <input type='email' name='o-email' class='form-control input-sm' required/>
 </p>
-</fieldset>
 
 <!--<p>
 <label>User Name:</label>

@@ -4,6 +4,157 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
+// FOR STUDENT PROFILES!!!
+function get_all_prefs($id)
+{
+    global $mysqli,$db_table_prefix;
+        
+        $stmt = $mysqli->prepare("SELECT 
+                social,
+                sleep,
+                cleaning,
+                p_type,
+                p_rent,
+                p_sharing,
+                p_smoking
+                FROM ".$db_table_prefix."preferences
+                WHERE 
+                s_id = ?
+                LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($social, $sleep, $clean, $type, $rent, $sharing, $smoking);
+        while ($stmt->fetch()){
+            $row = array($social,$sleep,$clean,$type,$rent,$sharing,$smoking);
+        }
+        $stmt->close();
+        return ($row);
+}
+
+function get_about_me($id)
+{
+     global $mysqli,$db_table_prefix;
+        
+        $stmt = $mysqli->prepare("SELECT 
+                major,
+                self_stmt
+                FROM ".$db_table_prefix."preferences
+                WHERE 
+                s_id = ?
+                LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($major,$self_stmt);
+        while ($stmt->fetch()){
+            $row = array($major,$self_stmt);
+        }
+        $stmt->close();
+        return ($row);
+}
+
+function get_pers_for_profile($id)
+{
+    global $mysqli,$db_table_prefix;
+   
+     $stmt = $mysqli->prepare("SELECT
+             personality_result
+             FROM ".$db_table_prefix."personality_quiz
+             WHERE
+             s_id = ?
+             LIMIT 1");
+     $stmt->bind_param("i",$id);
+     $stmt->execute();
+     $stmt->bind_result($result);
+     while ($stmt->fetch()){
+        $result;
+     }
+    $stmt->close();
+    return ($result);
+}
+
+// FOR PERSONALITY QUIZ/SUGGESTED USERS
+function get_user_pers_id($personality)
+{
+    global $mysqli,$db_table_prefix;
+   
+     $stmt = $mysqli->prepare("SELECT
+             id
+             FROM ".$db_table_prefix."personalities
+             WHERE
+             personality = ?
+             LIMIT 1");
+     $stmt->bind_param("s",$personality);
+     $stmt->execute();
+     $stmt->bind_result($p_id);
+     while ($stmt->fetch()){
+        $p_id;
+     }
+    $stmt->close();
+    return ($p_id);
+}
+
+function get_most_compatible($p_id)
+{
+    global $mysqli,$db_table_prefix;
+   
+     $stmt = $mysqli->prepare("SELECT
+             pers2
+             FROM ".$db_table_prefix."compatibility_key
+             WHERE
+             pers1 = ? AND compatibility = 3
+             ");
+     $stmt->bind_param("i",$p_id);
+     $stmt->execute();
+     $stmt->bind_result($p1);
+     while ($stmt->fetch()){
+        $row = array($p1);
+     }
+    $stmt->close();
+    
+    $id = array($p_id);
+   $result = array_merge($id,$row);
+    
+    return ($result);
+}
+
+function convert_id_to_pers($p_id)
+{
+    global $mysqli,$db_table_prefix;
+   
+     $stmt = $mysqli->prepare("SELECT
+             personality
+             FROM ".$db_table_prefix."personalities
+             WHERE
+             id = ?
+             ");
+     $stmt->bind_param("i",$p_id);
+     $stmt->execute();
+     $stmt->bind_result($pers);
+     while ($stmt->fetch()){
+        $pers;
+     }
+    $stmt->close();
+    return ($pers);
+}
+
+function get_comp_personalities($user_personality)
+{
+    $p_id = get_user_pers_id($user_personality);
+    $compatible_ids = get_most_compatible($p_id);
+    
+    $p1 = convert_id_to_pers($compatible_ids[0]);
+    $p2 = convert_id_to_pers($compatible_ids[1]);
+    //$p3 = convert_id_to_pers($compatible_ids[2]);
+    //$p4 = convert_id_to_pers($compatible_ids[3]);
+    
+    $compatible_personalities = array($p1,$p2/*,$p3,$p4*/);
+    /*for($i=0;$i<count($compatible_ids);$i++)
+    {
+        $compatible_personalities = convert_id_to_pers($compatible_ids[$i]);
+    }*/
+    
+    return ($compatible_personalities);
+}
 // Recently added
 // -----------------------------------------------------------------------------
 function check_user($user){
@@ -24,6 +175,94 @@ function check_user($user){
      return($title);
  }
  
+ function take_quiz($id,$result)
+ {
+     global $mysqli,$db_table_prefix;
+     
+     $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."personality_quiz (
+                s_id,
+                date_completed,
+                personality_result
+                )
+                VALUES(
+                ?,
+                ".time().",
+                ?
+                )");
+            $stmt->bind_param("is",$id,$result);
+            $stmt->execute();
+            $inserted_id = $mysqli->insert_id;
+            $stmt->close();    
+ }
+ 
+ function get_quiz_results($id)
+ {
+     global $mysqli,$db_table_prefix;
+   
+     $stmt = $mysqli->prepare("SELECT
+             s_id,
+             personality_result
+             FROM ".$db_table_prefix."personality_quiz
+             WHERE
+             s_id = ?
+             LIMIT 1");
+     $stmt->bind_param("i",$id);
+     $stmt->execute();
+     $stmt->bind_result($s_id,$result);
+     while ($stmt->fetch()){
+        $row = array([0]=> $s_id, [1]=>result);
+     }
+    $stmt->close();
+    return ($row);
+ }
+ 
+function get_self_stmt($id)
+ {
+     global $mysqli,$db_table_prefix;
+        
+        $stmt = $mysqli->prepare("SELECT 
+                self_stmt
+                FROM ".$db_table_prefix."preferences
+                WHERE 
+                s_id = ?
+                LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($self_stmt);
+        while ($stmt->fetch()){
+            $self_stmt;
+        }
+        $stmt->close();
+        return ($self_stmt);
+ }
+ function get_preferences($id)
+    {
+        global $mysqli,$db_table_prefix;
+        
+        $stmt = $mysqli->prepare("SELECT 
+                major,
+                major_imp,
+                social,
+                social_imp,
+                sleep,
+                sleep_imp,
+                cleaning,
+                cleaning_imp
+                FROM ".$db_table_prefix."preferences
+                WHERE 
+                s_id = ?
+                LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($major, $major_imp, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp);
+        while ($stmt->fetch()){
+            $row = array(0 =>$major, 1 =>$major_imp, 2 =>$social, 3 =>$social_imp,
+                4 =>$sleep, 5 =>$sleep_imp, 6 =>$clean, 7 =>$clean_imp);
+        }
+        $stmt->close();
+        return ($row);
+    }
+    
  function fetchUserId($user){
      global $mysqli,$db_table_prefix;
      $stmt = $mysqli->prepare("SELECT

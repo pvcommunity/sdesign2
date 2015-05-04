@@ -1,6 +1,16 @@
-    
-<!DOCTYPE html>
-<html lang='en'>
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+require_once("models/config.php");
+if(!securePage($_SERVER['PHP_SELF'])){die();}
+
+$id = $_REQUEST["id"];
+?>
 
 <head>
 
@@ -93,9 +103,7 @@ body {
 			<br>
                         <img src='resources/images/mhmm.png'>
 
-
-    
-   <?php
+ <?php
 
 if (isset($_POST ['submit'])) 
     {
@@ -186,3 +194,4 @@ if (isset($_POST ['submit']))
 </center>
 </body>
 </html> 
+

@@ -1,3 +1,11 @@
+<?php
+
+require_once("models/config.php");
+if(!securePage($_SERVER['PHP_SELF'])){die();}
+
+    $id = $_REQUEST["id"];
+    echo $id;
+?>
 
 <!DOCTYPE html>
 <html lang='en'>
@@ -6,7 +14,8 @@
         <SCRIPT LANGUAGE="JavaScript">
 <!-- This script generated free online at -->
 <!-- Wilsoninfo http://www.wilsoninfo.com -->
-   < !--Begin;
+
+            < !--Begin
             function popUp(URL) {
                 day = new Date();
                 id = day.getTime();
@@ -16,15 +25,28 @@
         </script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="vendors/bootstrap-3.2.0/css/bootstrap.min.css">
+        <script src="vendors/jquery-1.11.1/jquery.min.js"></script>
+        <script src="vendors/bootstrap-3.2.0/js/bootstrap.min.js"></script>
 
+        <style>
+            body {
+                background: #660066 url('resources/images/bg4.jpg') repeat;
+            }
+        </style>
+
+
+
+    <center> 
         <!--Personality Quiz stylesheet-->
-        <link rel='stylesheet' type='text/css' href='styles/PersonalityQuiz.css'</link>
+        <link rel='stylesheet' type='text/css' href='resources/css/PersonalityQuiz.css'</link>
 
         <!-- jQuery -->
-        <script src='js/jquery.js'></script>
+        <script src='vendors/jquery-1.11.1/jquery.js'></script>
+
+        <!-- Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
         </head>
 
@@ -48,7 +70,7 @@
                         <ul>
                             <li class='current_page_item'><a href='index.php'>Home</a></li>
                             <li><a href='login.php'>Login</a></li>
-                            <li class ='last'><a href=#>Question/Concerns</a></li>
+                            <li class ='last'><a href='faqs.php'>Question/Concerns</a></li>
                         </ul>
                     </div>
 
@@ -56,7 +78,7 @@
 
                     <center>
                         <!--BANNER-->
-                        <img src='images/PersonalityQuiz.png'>
+                        <img src='resources/images/PersonalityQuiz.png'>
 
 
                         <!--Questions Progression-->
@@ -64,147 +86,18 @@
                         <tr>
                         <br>
                         <br>
+                        <!--
+                        echo"
+                        PHP STARTS HERE -->
                         <tr>
-<?php
-
-if (isset($_POST ['submit'])) 
-    {
- // INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
- //require_once("models/config.php"); 
-$dbhost = 'localhost';
-$dbuser = 'root';
-$dbpass = '';
-$conn = mysql_connect($dbhost, $dbuser, $dbpass);
- 
-// global $mysqli, $db_table_prefix;
-
-<<<<<<< HEAD
-                        <form action="updated_personalityresults.php"  method="post">
-=======
-$question1 = $_POST['question1'];
-$question2 = $_POST['question2'];
-$question3 = $_POST['question3'];
-$question4 = $_POST['question4']; 
-$quizresults = $question1 . $question2 . $question3 . $question4;
-//$stmt -> bind_param("is", $s_id,$Quizresults);
-$sql = "INSERT INTO pv_personality_quiz".
-        "(personality_result)".
-        " VALUES('$quizresults')"; 
-mysql_select_db('testdb');
-
-$retval = mysql_query( $sql, $conn );
-if(! $retval )
-{
-  die('Could not enter data: ' . mysql_error());
-}
-echo "Entered data successfully\n";
-session_start();
-$_SESSION['quizresults'] = '$quizresults';
-
-echo "<div id='results'> <big><bold><h1>Your result is </big></bold></h1></div>";
-echo "<div id='results'><big><bold><h1>$quizresults </big></bold></h1></div>";
-
-         if ( $question1 == 'I' && $question2 == 'S' && $question3 == 'T' && $question4 == 'J')
-         { 
-             echo "General matches =  ESTJ, ISTJ, INTJ, ISTP, ESTP  ";
-         }
-         if ( $question1 == 'I' && $question2 == 'S' && $question3 == 'T' && $question4 == 'P')
-         { 
-             echo "General matches = ESTJ, ISTJ, ENTJ, ESTP ";
-         }   
-         if ( $question1 == 'E' && $question2 == 'S' && $question3 == 'T' && $question4 == 'P')
-         { 
-             echo "General matches =ISTJ, ESTP, ISTP, ESFP ";
-         }   
-          if ( $question1 == 'E' && $question2 == 'S' && $question3 == 'T' && $question4 == 'J')
-         { 
-             echo "General matches =ISTJ, ESFJ, ISFJ, ENTJ, INTJ, ISTP";
-         } 
-          if ( $question1 == 'I' && $question2 == 'S' && $question3 == 'F' && $question4 == 'J')
-         { 
-             echo "General matches =ISFJ, ENFJ, ESTJ";
-             echo "<br>";
-             echo " Possible matches :ESFJ, ESTP, ISFP, INFJ, INFP, ESFP, ISTJ, ISFP ";
-         } 
-          if ( $question1 == 'I' && $question2 == 'S' && $question3 == 'F' && $question4 == 'P')
-         { 
-             echo "Best matches =ESFP, ISFP";
-             echo "<br>";
-             echo " Possible matches : ESTP, ESTJ, ESFJ, ISTP, ENFJ, INFJ, INFP, ISFJ, ISTJ, ENFP";
-         } 
-          if ( $question1 == 'E' && $question2 == 'S' && $question3 == 'F' && $question4 == 'P')
-         { 
-             echo "General matches =ESTP, ISFP";
-             echo "<br>";
-             echo " Possible matches : ESTJ, ESFJ, ISFJ, ESFP, ENTP, ENFJ, INFJ, ENFP, INFP";
-         } 
-           if ( $question1 == 'E' && $question2 == 'S' && $question3 == 'F' && $question4 == 'J')
-         { 
-             echo "General matches =ESTJ, ENFP";
-             echo "<br>";
-             echo " Possible matches : ISFJ, ESFJ, ENFJ, INFP, ISFP, ISTP, ESFP";
-         } 
-         if ( $question1 == 'I' && $question2 == 'N' && $question3 == 'F' && $question4 == 'J')
-         { 
-             echo "General matches =ENTP, ENFP, INFJ, INFP, ENFJ";
-            
-         } 
-          if ( $question1 == 'I' && $question2 == 'N' && $question3 == 'F' && $question4 == 'P')
-         { 
-             echo "Best matches =ENFP, INFP, ENFJ, INFJ";
-            
-         } 
-          if ( $question1 == 'E' && $question2 == 'N' && $question3 == 'F' && $question4 == 'P')
-         { 
-             echo "General matches =INFJ, INFP, ENFJ, ENFP, ESFJ";
-            
-         } 
-         if ( $question1 == 'E' && $question2 == 'N' && $question3 == 'F' && $question4 == 'J')
-         { 
-             echo "General matches =ISFJ, ENFJ, ENTJ, INFJ, ENFP, INFP";
-            
-         } 
-         if ( $question1 == 'I' && $question2 == 'N' && $question3 == 'T' && $question4 == 'J')
-         { 
-             echo "General matches =ESTJ, INTJ, ISTP, ENTJ";
-            
-         } 
-         if ( $question1 == 'I' && $question2 == 'N' && $question3 == 'T' && $question4 == 'P')
-         { 
-             echo "General matches = ENTP, INTP, INTJ";
-             echo "<br>";
-              echo " Possible matches :ESTJ, ISTJ, ESTP, ENTJ, ENFJ, INFJ, ENFP, INFP ";
-            
-         } 
-         if ( $question1 == 'E' && $question2 == 'N' && $question3 == 'T' && $question4 == 'P')
-         { 
-             echo "General matches = ENTP, INTP, INFJ";
-             echo "<br>";
-             echo " Possible matches :ESTJ, ISTJ, ESTP, ESFP, ENTJ, ENFP, INFP, ENFJ ";
-            
-         } 
-         if ( $question1 == 'E' && $question2 == 'N' && $question3 == 'T' && $question4 == 'J')
-         { 
-             echo "General matches =  ESTJ, ISTP, ENTJ, ENFJ, INTJ";
-            
-         } 
-   header("location:personalityresult.php");
-         
 
 
-
-
-}
-
-
-?>
-                            <form method="post" action="<?php  $_PHP_SELF?>">
->>>>>>> origin/master
+                        <form action="personalityresult.php"  method="post">
                             <input type ="hidden" name ="submit" value =" true"/>
                             <!-- Insert whatever radio button questions you want here. -->
                             <br>
                             <br>
-                            
+
                             <legend> Question One </legend>
                             <label>Select the option that best describes you?</label> <br>
                             <input type="radio" name="question1" id ="question1" value="E" >Extrovert
@@ -240,14 +133,130 @@ echo "<div id='results'><big><bold><h1>$quizresults </big></bold></h1></div>";
                             <br>
                             <button class="next">next</button>
                             <br>
-<<<<<<< HEAD
-                            <input type="submit" name="submit" value="Get Results" onClick="javascript:window.location=updated_personalityresults.php;" />
-=======
-                            <input type="submit" name="submit" id ="submit" value="Get Results"  />
->>>>>>> origin/master
+                            <input type="submit" name="submit" value="Get Results" />
 
-                            </form>
-                            </form>
+
+                        </form>           
+
+
+<?php
+    if(!empty($_POST))
+    {
+        $errors = array();
+        
+        $question1 = $_POST['question1'];
+        $question2 = $_POST['question2'];
+        $question3 = $_POST['question3'];
+        $question4 = $_POST['question4'];
+        
+        $result = $question1.$question2.$question3.$question4;
+        
+        
+        if(count($errors) == 0)
+    {
+        $pers_quiz = new PersonalityQuiz($id);
+	$pers_quiz->takeQuiz($result);
+        
+        $successes[] = lang("ACCOUNT_PERSONALITY_QUIZ",array($id));
+        
+    }
+        
+}
+?>
+<?php
+if (isset($_POST ['submit'])) 
+    {
+ // INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
+ //require_once("models/config.php"); 
+
+// global $mysqli, $db_table_prefix;
+$question1 = $_POST['question1'];
+$question2 = $_POST['question2'];
+$question3 = $_POST['question3'];
+$question4 = $_POST['question4']; 
+//$mysql_query = "INSERT INTO personalityresults(question1,question2,question3,question4) VALUES ('$question1','$quizresults','$question3','$question4')";
+// ^^^^^^^^^^ inserts questions into database^^ move to different page ^^^^^^^
+// 
+//$questions = array('question1','question2','question3','question4');
+echo"<center>";
+echo " <div>";
+session_start();
+$Quizresults = $question1 . $question2 . $question3 . $question4;
+$mysql= "INSERT INTO PersonalityQuiz ('quizresults') VALUES('$Quizresults')"; 
+//$mysqli_query = "INSERT INTO ".$db_table_prefix." personality_results(s_id, date_completed, personality_result') VALUES (?, '".time()."',$Quizresults')";
+//$stmt -> bind_param("is", $s_id,$Quizresults);
+// ^^^^^^^^^^ QuizResults into into database^^^^^^^^^
+
+$_SESSION['QuizResults'] = $Quizresults;
+echo "<div id='results'> Your result is </div>";
+echo "<div id='results'>$Quizresults </div>";
+echo $_SESSION['score'];
+;
+echo "<br>";
+if ($question1 == 'I' && $question2 == 'S' && $question3 == 'T' && $question4 == 'J') {
+    echo "Best matches =  ESTJ, ISTJ, INTJ, ISTP, ESTP  ";
+}
+if ($question1 == 'I' && $question2 == 'S' && $question3 == 'T' && $question4 == 'P') {
+    echo "Best matches = ESTJ, ISTJ, ENTJ, ESTP ";
+}
+if ($question1 == 'E' && $question2 == 'S' && $question3 == 'T' && $question4 == 'P') {
+    echo "Best matches =ISTJ, ESTP, ISTP, ESFP ";
+}
+if ($question1 == 'E' && $question2 == 'S' && $question3 == 'T' && $question4 == 'J') {
+    echo "Best matches =ISTJ, ESFJ, ISFJ, ENTJ, INTJ, ISTP";
+}
+if ($question1 == 'I' && $question2 == 'S' && $question3 == 'F' && $question4 == 'J') {
+    echo "Best matches =ISFJ, ENFJ, ESTJ";
+    echo "<br>";
+    echo " Possible matches :ESFJ, ESTP, ISFP, INFJ, INFP, ESFP, ISTJ, ISFP ";
+}
+if ($question1 == 'I' && $question2 == 'S' && $question3 == 'F' && $question4 == 'P') {
+    echo "Best matches =ESFP, ISFP";
+    echo "<br>";
+    echo " Possible matches : ESTP, ESTJ, ESFJ, ISTP, ENFJ, INFJ, INFP, ISFJ, ISTJ, ENFP";
+}
+if ($question1 == 'E' && $question2 == 'S' && $question3 == 'F' && $question4 == 'P') {
+    echo "Best matches =ESTP, ISFP";
+    echo "<br>";
+    echo " Possible matches : ESTJ, ESFJ, ISFJ, ESFP, ENTP, ENFJ, INFJ, ENFP, INFP";
+}
+if ($question1 == 'E' && $question2 == 'S' && $question3 == 'F' && $question4 == 'J') {
+    echo "Best matches =ESTJ, ENFP";
+    echo "<br>";
+    echo " Possible matches : ISFJ, ESFJ, ENFJ, INFP, ISFP, ISTP, ESFP";
+}
+if ($question1 == 'I' && $question2 == 'N' && $question3 == 'F' && $question4 == 'J') {
+    echo "Best matches =ENTP, ENFP, INFJ, INFP, ENFJ";
+}
+if ($question1 == 'I' && $question2 == 'N' && $question3 == 'F' && $question4 == 'P') {
+    echo "Best matches =ENFP, INFP, ENFJ, INFJ";
+}
+if ($question1 == 'E' && $question2 == 'N' && $question3 == 'F' && $question4 == 'P') {
+    echo "Best matches =INFJ, INFP, ENFJ, ENFP, ESFJ";
+}
+if ($question1 == 'E' && $question2 == 'N' && $question3 == 'F' && $question4 == 'J') {
+    echo "Best matches =ISFJ, ENFJ, ENTJ, INFJ, ENFP, INFP";
+}
+if ($question1 == 'I' && $question2 == 'N' && $question3 == 'T' && $question4 == 'J') {
+    echo "Best matches =ESTJ, INTJ, ISTP, ENTJ";
+}
+if ($question1 == 'I' && $question2 == 'N' && $question3 == 'T' && $question4 == 'P') {
+    echo "Best matches = ENTP, INTP, INTJ";
+    echo "<br>";
+    echo " Possible matches :ESTJ, ISTJ, ESTP, ENTJ, ENFJ, INFJ, ENFP, INFP ";
+}
+if ($question1 == 'E' && $question2 == 'N' && $question3 == 'T' && $question4 == 'P') {
+    echo "Best matches = ENTP, INTP, INFJ";
+    echo "<br>";
+    echo " Possible matches :ESTJ, ISTJ, ESTP, ESFP, ENTJ, ENFP, INFP, ENFJ ";
+}
+if ($question1 == 'E' && $question2 == 'N' && $question3 == 'T' && $question4 == 'J') {
+    echo "Best matches =  ESTJ, ISTP, ENTJ, ENFJ, INTJ";
+}
+    }
+echo"</center>";
+echo "</div>";
+?> 
 
 
 <footer>
@@ -269,3 +278,14 @@ echo "<div id='results'><big><bold><h1>$quizresults </big></bold></h1></div>";
     </center>
 </body>
 </html>
+
+
+?>   
+
+
+         
+
+
+
+
+

@@ -1,3 +1,26 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+require_once("models/config.php");
+if(!securePage($_SERVER['PHP_SELF'])){die();}
+
+$id = $_REQUEST["id"];
+
+/*$question1 = $_POST['question1'];
+$question2 = $_POST['question2'];
+$question3 = $_POST['question3'];
+$question4 = $_POST['question4']; */
+
+//$results = $question1.$question2.$question3.$question4;
+$results = get_quiz_results($id);
+
+//take_quiz($id, $results);
+?>
 
 <!doctype html>
 <html>
@@ -8,8 +31,6 @@
  .QRP { cursor:hand; cursor:pointer;
         border:1px solid white;  width:95%; }
  .PR { display:none; }
- 
- 
 .suggested {
 	-moz-box-shadow: 0px 1px 0px 0px #1c1b18;
 	-webkit-box-shadow: 0px 1px 0px 0px #1c1b18;
@@ -49,23 +70,17 @@
 .suggested:active {
 	position:relative;
 	top:1px;
-}
-
-        
+}       
 .boxed {
   border: 5px solid purple ;
   width: 400px; 
   height:195px; 
 }      
-
 body {
     background: #660066 url('resources/images/bg4.jpg') repeat;
 }
 
 </style>
-
-
-
 
 <script type="text/javascript">
 function toggle(Info) {
@@ -77,7 +92,7 @@ function toggle(Info) {
 </script>
 </head>
 <body>
-<div class='container'>
+<!--<div class='container'>
 <div id='wrapper'> 
     <div id='logo'>
        
@@ -85,7 +100,7 @@ function toggle(Info) {
                     <br>
                     <br>
                     <br>
-                      <center><h1><a href='#'>PV Student Community</a></h1></center>       
+                    <center><h1><a href='index.php'>PV Student Community</a></h1></center>       
 					<br>
 					<br>
                     <br>
@@ -94,50 +109,80 @@ function toggle(Info) {
 		<ul>
 			<li class='current_page_item'><a href='index.php'>Home</a></li>
 			<li><a href='login.php'>Login</a></li>
-			<li class ='last'><a href=#>Question/Concerns</a></li>
+                        <li class ='last'><a href='faqs.php'>Question/Concerns</a></li>
 		</ul>
-	</div>
+	</div>-->
+<?php 
+require_once'models/site-templates/top.php'; 
+
+echo $results;
+
+/*if (isset($_POST ['submit'])) 
+{
+    // connect to database
+   
+    mysql_connect("localhost","root","");
+    mysql_select_db("PV_5.0");
+    $category = $_POST['category'];
+    $criteria = $_POST['criteria'];
+
+    // what they type in the text box
+    $sql = mysql_query("SELECT * FROM personalityresults WHERE $category LIKE '%".$criteria."%'");
+   
+    $Quizresults = 'quizresults';
+    $Firstname = 'Firstname';
+    $Lastname = 'Lastname';
+    echo"<table>";
+    echo"<tr>
+    <th> firstname</th><th>lastname</th>
+    <th>age</th></tr>";
+    while($row = mysql_fetch_array($sql))
+    {
+    
+      // query goes here 
+       echo"<tr><td>";
+     
+       echo $row[$Quizresults];
+       echo "</td><td>";
+        echo $row[$Firstname];
+       echo "</td><td>";
+        echo $row[$Lastname];      
+       echo "</td><tr>";
+    }
+       
+ }*/
 	
-	
-	
+echo"	
 <center>
 <!--BANNER-->
 <img src='resources/images/PersonalityQuiz.png'>
 			
             
-          <div id="content-area">
-			            <div class="view view-page view-id-page view-display-id-page_1 img-plain view-dom-id-dad9922c7280c210042a75c81889f82e">
-  
- <?php 
- // INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
- //require_once("models/config.php"); 
+          <div id='content-area'>
+			            <div class='view view-page view-id-page view-display-id-page_1 img-plain view-dom-id-dad9922c7280c210042a75c81889f82e'>
 
-// INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
- //require_once("models/config.php"); 
+    <br> 
+    <br> 
+    <center>
+        <form method='post'  action='suggested_users2.php'>
+        <input type ='hidden' name ='submit' value ='true'/>
 
-//global $mysqli, $db_table_prefix;
-$question1 = $_POST['question1'];
-$question2 = $_POST['question2'];
-$question3 = $_POST['question3'];
-$question4 = $_POST['question4']; 
-//$mysql_query = "INSERT INTO personalityresults(question1,question2,question3,question4) VALUES ('$question1','$quizresults','$question3','$question4')";
-// ^^^^^^^^^^ inserts questions into database^^ move to different page ^^^^^^^
-// 
-//$questions = array('question1','question2','question3','question4');
-echo"<center>";
-echo " <div>";
-session_start();
-$Quizresults = $question1 . $question2 . $question3 . $question4;
-//$mysql= "INSERT INTO -personalityquiz ('quizresults') VALUES('$Quizresults')"; 
-//$mysql_query = "INSERT INTO ".$db_table_prefix." personality_results(s_id, date_completed, personality_result') VALUES (?, '".time()."',$Quizresults')";
-//$stmt -> bind_param("is", $s_id,$Quizresults);
-// ^^^^^^^^^^ QuizResults into into database^^^^^^^^^
+        <center>
+        <label> Search Your Roommate Matches: </label> 
+        </center>
+        <center>
+            <select name ='category'>
+                <option value ='quizresults' name ='quizresults'> Search Exact Matches </option>
+            </select>
 
-//$_SESSION['QuizResults'] = $Quizresults;
-echo "<div id='results'> Your result is </div>";
-echo "<div id='results'>$Quizresults </div>";
-
-         if ( $question1 == 'I' && $question2 == 'S' && $question3 == 'T' && $question4 == 'J')
+                <br>
+             <label> Search Criteria: </label>
+                <br>
+                <input type = 'text'  name ='criteria' id = 'criteria' value='".$results."' />
+        </center> 
+                <br><input type='submit' name='submit' value='Get Results' />    
+             </form>";
+    if ( $question1 == 'I' && $question2 == 'S' && $question3 == 'T' && $question4 == 'J')
          { 
              echo "General matches =  ESTJ, ISTJ, INTJ, ISTP, ESTP  ";
          }
@@ -220,52 +265,9 @@ echo "<div id='results'>$Quizresults </div>";
          { 
              echo "General matches =  ESTJ, ISTP, ENTJ, ENFJ, INTJ";
             
-         } 
-            
-
-
- 
-echo"</center>";
-echo "</div>"; 
- ?>   
-<?php
-  echo"<br> 
-       <br> 
-       <center>
-<form method='post'  action='suggestedusers.php'>
-<input type ='hidden' name ='submit' value ='true'/>
-    
-<center>
-<label> Search Your Roommate Matches: </label> 
-</center>
-<center>
-    <select name ='category'>
-        <option value ='quizresults' name ='quizresults'> Search Exact Matches </option>
-    </select>
-    
-        <br>
-     <label> Search Criteria: </label>
-        <br>
-        <input type = 'text'  name ='criteria' id = 'criteria' value='$Quizresults' />
-</center> 
-        <br><input type='submit' name='submit' value='Get Results' />    
-     </form>
-";
-
-
-
-//https://www.youtube.com/watch?v=IYmS5HRo6JI 
-if (isset($_POST ['submit'])) 
-    {
-    // connect to database
-   
-    mysql_connect("localhost","root","");
-    mysql_select_db("testdb");
-    $category = $_POST['category'];
-    $criteria = $_POST['criteria'];
-
+         }     
     // what they type in the text box
-    $sql = mysql_query("SELECT * FROM personalityresults WHERE $category LIKE '%".$criteria."%'");
+   /* $sql = mysql_query("SELECT * FROM personalityresults WHERE $category LIKE '%".$criteria."%'");
    
     $Quizresults = 'quizresults';
     $Firstname = 'Firstname';
@@ -286,19 +288,10 @@ if (isset($_POST ['submit']))
        echo "</td><td>";
         echo $row[$Lastname];      
        echo "</td><tr>";
-        
-       
- }
- echo"";
- echo"</table>"; 
-   // mysql_close($con);
     }
-                                
- ?>                                         
-                                        
-                                        
-                                        
-                                       
+    echo"";
+ echo"</table>"; */?>
+<center>
 <br>
 
  <div class="view-content">
@@ -605,7 +598,7 @@ Active and playful, ESTPs are often the life of the party and have a good sense 
     </div>
   
   
-  
+</center> 
   
   
   
@@ -623,4 +616,3 @@ Active and playful, ESTPs are often the life of the party and have a good sense 
 
 </body>
 </html>
-

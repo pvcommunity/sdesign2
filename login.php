@@ -7,16 +7,17 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
+
 //Prevent the user visiting the logged in page if he/she is already logged in
 if(isUserLoggedIn()) { 
     
     $title = check_user($loggedInUser->username);
-    $id = $loggedInUser->user_id;
+    $id = fetchUserId($loggedInUser->username);
     
     switch($title){
-        case "Administrator": header("Location: account.php"); break;
-        case "Student": header("Location: student.php"); break;
-        case "Property": header("Location: landlord.php"); break;
+        case "Administrator": header("location: account.php?user=".$id.""); break;
+        case "Student": header("location: student.php?id=".$id.""); break;
+        case "Property": header("location: landlord.php?id=".$id.""); break;
     }
     die(); 
 }
@@ -91,11 +92,12 @@ if(!empty($_POST))
 					//Redirect to user account page
                                         if(isUserLoggedIn()) { 
                                             $title = check_user($username);
+                                            $id = fetchUserId($username);
                                             
                                              switch($title){
-                                                 case "Administrator": header("Location: account.php"); break;
-                                                 case "Student": header("Location: student.php"); break;
-                                                 case "Property": header("Location: landlord.php"); break;
+                                                case "Administrator": header("location: account.php?id=".$id.""); break;
+                                                case "Student": header("location: student.php?id=".$id.""); break;
+                                                case "Property": header("location: landlord.php?id=".$id.""); break;
                                              }
                                              die(); 
                                         }

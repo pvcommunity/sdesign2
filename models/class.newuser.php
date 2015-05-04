@@ -514,7 +514,7 @@ class Property extends User
 /*----------------------------------------------------------------------------------------------------------------------------------------------------
 Students Only!!!
 ------------------------------------------------------------------------------------------------------------------------------------------------------*/
-class Preferences extends Student{
+/*class Preferences extends Student{
     public $major;
     public $social;
     public $sleep;
@@ -571,13 +571,13 @@ class Preferences extends Student{
             $inserted_id = $mysqli->insert_id;
             $stmt->close();
     }
-}
+}*/
 
-class PersonalityQuiz extends Student {
+/*class PersonalityQuiz extends Student {
     protected $question1;
     protected $question2;
     protected $question3;
     protected $question4;
     protected $result;
-}
+}*/
 ?>

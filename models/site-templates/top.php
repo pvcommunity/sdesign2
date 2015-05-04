@@ -6,7 +6,12 @@
  * and open the template in the editor.
  */
 
-echo "<link rel='resourcesheet' type='text/css' href='resources/css/AssembledStylesheet.css'</link>";
+echo "<link rel='resourcesheet' type='text/css' href='resources/css/AssembledStylesheet.css'</link>
+       <style>
+         h1 {
+            font-family: Bernard MT Condensed; 
+        }
+       </style>";
 echo"
 <!--<body style='background:#660066 url('resources/images/bg4.jpg') repeat;'>-->
 <!-- TITLE HERE -->

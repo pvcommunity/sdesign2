@@ -9,15 +9,14 @@ if(!securePage($_SERVER['PHP_SELF'])){die();}
     //echo $id;
 
 
-    //$pref = new Preferences($id);
-    //$test = get_preferences($id);
+    
     
 // Forms posted
 if(!empty($_POST))
 {
     $errors = array();
     
-    //$s_id = $_GET["s-id"];
+    $s_id = $_GET["s_id"];
     $major = $_POST["major"];
     $self_stmt = $_POST["self_stmt"];
     $social = $_POST["social"];
@@ -36,20 +35,67 @@ if(!empty($_POST))
     
     if(count($errors) == 0)
     {
-        $student_preferences = new Preferences($id);
-	$student_preferences->set_preferences($id,$self_stmt,$major,$major_imp,$social,$social_imp,$sleep,$sleep_imp,$clean,$clean_imp,$p_type,$p_rent,$p_sharing,$p_smoking);
-        
-        header("Location: personality-quiz.php?id=".$id."");
-       // $successes[] = lang("ACCOUNT_PERSONALITY_QUIZ",array($id));
-        
+        //*global $mysqli,$db_table_prefix;
+         $server="localhost";
+    $username="root";
+    $password="";
+    $db="pv_5.0";
+    $mysqli = new mysqli($server,$username,$password);
+    if ($mysqli->errno) 
+    {
+        printf("Unable to connect to the database:<br /> %s",
+        $mysqli->error);
+         exit();
     }
+    $mysqli->select_db($db);
+        $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
+                s_id,
+                major,
+		major_imp,
+                self_stmt,
+                social,
+		social_imp,
+                sleep,
+		sleep_imp,
+                cleaning,
+		cleaning_imp,
+                p_type,
+                p_rent,
+                p_sharing,
+                p_smoking
+                )
+                VALUES (
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+		?,
+		?,
+		?,
+		?,
+		?
+                )");
+            $stmt->bind_param('isisisisissss', $s_id, $major, $major_imp, $self_stmt, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp, $p_type, $p_rent, $p_sharing, $p_smoking);
+            $stmt->execute();
+            $inserted_id = $mysqli->insert_id;
+            $stmt->close();
+        //$student_preferences = new Preferences($s_id);
+	//$student_preferences->set_preferences($s_id,$major,$self_stmt,$major_imp,$social,$social_imp,$sleep,$sleep_imp,$clean,$clean_imp,$p_type,$p_rent,$p_sharing,$p_smoking);
         
+        //$url = "personalityquiz.php".$s_id;
+        header('Location:personality-quiz.php?id='.$s_id);
+    }
 }
 
 echo"
 <title>About Me</title>
 <link rel='stylesheet' type='text/css' href='resources/css/PersonalityQuiz.css'>
-<!--<link rel='stylesheet' type='text/css' href='vendors/bootstrap-3.2.0/css/bootstrap.min.css'>-->
+<!--<link rel='stylesheet' type='text/css' href='styles/bootstrap-3.2.0/css/bootstrap.min.css'>-->
 <link rel='stylesheet' type='text/css' href='resources/css/Notifications.css'>
 	
 <script type='text/javascript' src='vendors/jquery-1.11.1/jquery.min.js'></script>
@@ -106,14 +152,13 @@ echo"
 ";
 
 echo resultBlock($errors,$successes);
-//echo "$id| $major| $major_imp| $self_stmt| $social| $social_imp| $sleep| $sleep_imp| $clean| $clean_imp| $p_type| $p_rent| $p_sharing| $p_smoking";
 echo "
 <form name='registration_pt2' action=' ".$_SERVER['PHP_SELF']."' method='post'>
     
     <center><fieldset id='about-me'><legend>About Me</legend></center>
         <!--  Student's id in a hidden form -->
-        <input type='hidden' name='s_id' value='".$id."'>
-        <input type='hidden' name='user' value='".$user."'>   
+        <input type='text' name='s_id' value='".$id."'>
+        <input type='text' name='user' value='".$user."'>   
         <p>
         <label>Major:</label>
         <select name='major'>

@@ -12,210 +12,158 @@
  *
  * @author Ashley
  */
+//require_once 'class.newuser.php';
 
-class Preferences{
-    function __construct($id=NULL,$user=NULL) {
-        if($id = NULL){
-            $this->$user = $user;
-            $this->id = fetchUserId($this->user);
-        } else {
-            $this->id = $id;
-        }
+
+class Preferences extends Student{
+    public $major;
+    public $major_imp;
+    public $social;
+    public $social_imp;
+    public $sleep;
+    public $sleep_imp;
+    public $clean;
+    public $clean_imp;
+    public $p_type;
+    public $p_rent;
+    public $p_sharing;
+    public $p_smoking;
+    protected $s_id;
+    public $self_stmt;
+
+    function __construct($id) 
+    {
+            $this->s_id = $id;
     }
     
-    function set_about_me($s_major,$s_self_stmt,$s_social,$s_sleeping,$s_cleaning)
+    function set_preferences($s_id,$self_stmt,$major,$major_imp,$social,$social_imp,$sleep,$sleep_imp,$clean,$clean_imp,$p_type,$p_rent,$p_sharing,$p_smoking)
     {
-        //$this->id = $s_id;
-        $this->major = $s_major;
-        $this->self_stmt = $s_self_stmt;
-        $this->social_habit = $s_social;
-        $this->sleep_habit = $s_sleep;
-        $this->cleaning_habit = $s_cleaning;
-
-        $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."about_me (
-            s_id,
-            s_major,
-            s_self_stmt,
-            s_social,
-            s_sleep,
-            s_cleaning
-            )
-            VALUES (
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?
-            )");
-        $stmt->bind_param("isssss", $this->id, $this->major, $this->self_stmt, $this->social_habit, $this->sleep_habit, $this->cleaning_habit);
-        $stmt->execute();
-        $inserted_id = $mysqli->insert_id;
-        $stmt->close();
-    }
-    
-    /* work on this one */
-    function get_about_me($major,$self_stmt,$social,$sleep,$cleaning)
-    {
-        $this->major = $s_major;
-        $this->self_stmt = $s_self_stmt;
-        $this->social_habit = $s_social;
-        $this->sleep_habit = $s_sleep;
-        $this->cleaning_habit = $s_cleaning;
-
-        $stmt = $mysqli->prepare("SELECT ".$db_table_prefix."about_me (
-            s_id,
-            s_major,
-            s_self_stmt,
-            s_social,
-            s_sleep,
-            s_cleaning
-            )
-            VALUES (
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?
-            )");
-        $stmt->bind_param("isssss", $this->id, $this->major, $this->self_stmt, $this->social_habit, $this->sleep_habit, $this->cleaning_habit);
-        $stmt->execute();
-        $inserted_id = $mysqli->insert_id;
-        $stmt->close();
-    }
-    
-    function set_preferences($r_major,$r_major_imp,$r_social,$r_social_imp,$r_sleep,$r_sleep_imp,$r_cleaning,$r_cleaning_imp,$p_type,$p_type_imp,$p_rent,$p_rent_imp,$p_sharing,$p_sharing_imp,$p_smoking,$p_smoking_imp)
-    {
-        $this->r_major = array('ans'=>$r_major,'imp'=>$r_major_imp);
-            $this->r_social = array('ans'=>$r_social,'imp'=>$r_social_imp);
-            $this->r_sleep = array('ans'=>$r_sleep,'imp'=>$r_sleep_imp);
-            $this->r_cleaning = array('ans'=>$r_cleaning,'imp'=>$r_cleaning_imp);
-            $this->p_type = array('ans'=>$p_type,'imp'=>$p_type_imp);
-            $this->p_rent = array('ans'=>$p_rent,'imp'=>$p_rent_imp);
-            $this->p_sharing = array('ans'=>$p_sharing,'imp'=>$p_sharing_imp);
-            $this->p_smoking = array('ans'=>$p_smoking,'imp'=>$p_smoking_imp);
-            
-            $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
-                s_id,
-                r_major,
-		r_major_imp,
-                r_social,
-		r_social_imp,
-                r_sleep,
-		r_sleep_imp,
-                r_cleaning,
-		r_cleaning_imp,
-                p_type,
-		p_type_imp,
-                p_rent,
-		p_rent_imp,
-                p_sharing,
-		p_sharing_imp,
-                p_smoking,
-		p_smoking_imp
-                )
-                VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?
-                )");
-            $stmt->bind_param('isisisisisisisisi', $this->id, $this->r_major['ans'], $this->r_major['imp'], $this->r_social['ans'], $this->r_social['imp'], $this->r_sleep['ans'], $this->r_sleep['imp'], $this->r_cleaning['ans'], $this->r_cleaning['imp'], $this->p_type['ans'], $this->p_type['imp'], $this->p_rent['ans'], $this->p_rent['imp'], $this->p_sharing['ans'], $this->p_sharing['imp'], $this->p_smoking['ans'], $this->p_smoking['imp']);
-            $stmt->execute();
-            $inserted_id = $mysqli->insert_id;
-            $stmt->close();
-    }
+        global $mysqli,$db_table_prefix;
+        
+        $this->self_stmt = $self_stmt;
+        $this->major = $major;
+        $this->major_imp = $major_imp;
+        $this->social = $social;
+        $this->social_imp = $social_imp;
+        $this->sleep = $sleep;
+        $this->sleep_imp = $sleep_imp;
+        $this->clean = $clean;
+        $this->clean_imp = $clean_imp;
+        $this->p_type = $p_type;
+        $this->p_rent = $p_rent;
+        $this->p_sharing = $p_sharing;
+        $this->p_smoking = $p_smoking;
      
-    /* work on this one also */
-    function get_preferences($id)
-    {
-        $this->r_major = array('ans'=>$r_major,'imp'=>$r_major_imp);
-            $this->r_social = array('ans'=>$r_social,'imp'=>$r_social_imp);
-            $this->r_sleep = array('ans'=>$r_sleep,'imp'=>$r_sleep_imp);
-            $this->r_cleaning = array('ans'=>$r_cleaning,'imp'=>$r_cleaning_imp);
-            $this->p_type = array('ans'=>$p_type,'imp'=>$p_type_imp);
-            $this->p_rent = array('ans'=>$p_rent,'imp'=>$p_rent_imp);
-            $this->p_sharing = array('ans'=>$p_sharing,'imp'=>$p_sharing_imp);
-            $this->p_smoking = array('ans'=>$p_smoking,'imp'=>$p_smoking_imp);
-            
-            $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
-                s_id,
-                r_major,
-		r_major_imp,
-                r_social,
-		r_social_imp,
-                r_sleep,
-		r_sleep_imp,
-                r_cleaning,
-		r_cleaning_imp,
-                p_type,
-		p_type_imp,
-                p_rent,
-		p_rent_imp,
-                p_sharing,
-		p_sharing_imp,
-                p_smoking,
-		p_smoking_imp
-                )
-                VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?,
-		?
-                )");
-            $stmt->bind_param('isisisisisisisisi', $this->id, $this->r_major['ans'], $this->r_major['imp'], $this->r_social['ans'], $this->r_social['imp'], $this->r_sleep['ans'], $this->r_sleep['imp'], $this->r_cleaning['ans'], $this->r_cleaning['imp'], $this->p_type['ans'], $this->p_type['imp'], $this->p_rent['ans'], $this->p_rent['imp'], $this->p_sharing['ans'], $this->p_sharing['imp'], $this->p_smoking['ans'], $this->p_smoking['imp']);
-            $stmt->execute();
-            $inserted_id = $mysqli->insert_id;
-            $stmt->close();
+        $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
+            s_id,
+            self_stmt,
+            major,
+            major_imp,
+            social,
+            social_imp,
+            sleep,
+            sleep_imp,
+            cleaning,
+            cleaning_imp,
+            p_type,
+            p_rent,
+            p_sharing,
+            p_smoking
+            )
+            VALUES (
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?
+            )");
+        $stmt->bind_param("issisisisissss", $this->s_id, $this->self_stmt, $this->major, $this->major_imp, $this->social, $this->social_imp, $this->sleep, $this->sleep_imp, $this->clean, $this->clean_imp, $this->p_type, $this->p_rent, $this->p_sharing, $this->p_smoking);
+        $stmt->execute();
+        $inserted_id = $mysqli->insert_id;
+        $stmt->close();
     }
     
+    /*function get_preferences($id)
+    {
+        global $mysqli,$db_table_prefix;
+        
+        $stmt = $mysqli->prepare("SELECT 
+                s_id,
+                major,
+                major_imp,
+                social,
+                social_imp,
+                sleep,
+                sleep_imp,
+                cleaning,
+                cleaning_imp
+                FROM ".$db_table_prefix."
+                WHERE 
+                s_id = ?
+                LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($id, $major, $major_imp, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp);
+        while ($stmt->fetch()){
+            $row = array('id'=>$id, 'major'=>$major, 'major_imp'=>$major_imp, 'social'=>$social, 'social_imp'=>$social_imp,
+                'sleep'=>$sleep, 'sleep_imp'=>$sleep_imp, 'clean'=>$clean, 'clean_imp'=>$clean_imp);
+        }
+        $stmt->close();
+        return ($row);
+    }*/
 }
 
-class PersonalityQuiz{
-    private $s_id;
+class PersonalityQuiz extends Preferences
+{
+    protected $s_id;
+    protected $question1;
+    protected $question2;
+    protected $question3;
+    protected $question4;
+    protected $result;
 
-    function __construct($id) {
-        $s_id = $id;
-    }
-    
-    function take_quiz($s_id,$question1,$question2,$question3,$question4,$result)
+    function __construct($id)
     {
-        
+        $this->s_id = $id; 
     }
     
-    function get_scores($id)
+    function takeQuiz($result)
     {
+        /*$this->question1 = $q1;
+        $this->question2 = $q2;
+        $this->question3 = $q3;
+        $this->question4 = $q4;*/
         
+        $this->result = $result;//$this->question1.$this->question2.$this->question3.$this->question4;
+        
+        global $mysqli,$db_table_prefix;
+            
+            $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."personality_quiz (
+                s_id,
+                date_completed,
+                personality_result
+                )
+                VALUES(
+                ?,
+                ".time().",
+                ?
+                )");
+            $stmt->bind_param("is",$this->s_id,$this->result);
+            $stmt->execute();
+            $inserted_id = $mysqli->insert_id;
+            $stmt->close();    
     }
     
-    function display_sugg_users($id)
+    function gather_user_scores()
     {
         
     }
