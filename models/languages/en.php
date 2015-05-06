@@ -47,7 +47,7 @@ $lang = array_merge($lang,array(
 	"ACCOUNT_ACTIVATION_COMPLETE"		=> "You have successfully activated your account. You can now login <a href=\"login.php\">here</a>.",
 	"ACCOUNT_REGISTRATION_COMPLETE_TYPE1"	=> "You have successfully registered. You can now login <a href=\"login.php\">here</a>.",
         "ACCOUNT_REGISTRATION_COMPLETE_TYPE_STUDENT1"	=> "Congrats! Your username is: <b>%m1%</b>. Click here to finish setting up your <a href=\"about-me.php?user=%m1%\">profile</a>.",
-        "ACCOUNT_REGISTRATION_COMPLETE_PROPERTY" => "You have successfully registered. Your username is: %m1%. You can now login <a href=\"login.php\">here</a>.",
+        "ACCOUNT_REGISTRATION_COMPLETE_PROPERTY" => "You have successfully registered. Your username is: <b>%m1%</b>. You can now login <a href=\"login.php\">here</a>.",
 	"ACCOUNT_PASSWORD_NOTHING_TO_UPDATE"	=> "You cannot update with the same password",
 	"ACCOUNT_PASSWORD_UPDATED"		=> "Account password updated",
 	"ACCOUNT_EMAIL_UPDATED"			=> "Account email updated",

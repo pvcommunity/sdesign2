@@ -15,7 +15,7 @@ if(isUserLoggedIn()) {
     $id = fetchUserId($loggedInUser->username);
     
     switch($title){
-        case "Administrator": header("location: account.php?user=".$id.""); break;
+        case "Administrator": header("location: account.php?id=".$id.""); break;
         case "Student": header("location: student.php?id=".$id.""); break;
         case "Property": header("location: landlord.php?id=".$id.""); break;
     }
@@ -72,7 +72,7 @@ if(!empty($_POST))
 					//Construct a new logged in user object
 					//Transfer some db data to the session object
 					$loggedInUser = new loggedInUser();
-					$loggedInUser->email = $userdetails["email"];
+					//$loggedInUser->email = $userdetails["email"];
 					$loggedInUser->user_id = $userdetails["id"];
 					$loggedInUser->hash_pw = $userdetails["password"];
 					$loggedInUser->title = $userdetails["title"];

@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php
+require_once('models/config.php');
+if (!securePage($_SERVER['PHP_SELF'])){die();}
+
+$id = $_REQUEST["id"];
+
+$contact_info = get_contact_info($id);
+
+echo
+'<!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -8,12 +17,23 @@ Creator : Olivia Benjamin
 <!doctype html>
 <html>
 <head>
-<title>Register</title>
-<link rel='stylesheet' type='text/css' href='styles/Landlordstyle.css'</link>
+<title>Landlord Profile</title>
+<link rel="stylesheet" type="text/css" href="resources/css/Landlordstyle.css"</link>
 <!-- JQUERY AND AJAX UPLOAD STARTS HERE -->
-<script src="/js/jquery.min.js" type="text/javascript"></script>
-<script src="/js/ajaxupload.js" type="text/javascript"></script>
+<script src="vendors/jquery-1.11.1/jquery.min.js" type="text/javascript"></script>
 <!-- JQUERY AND AJAX UPLOAD STARTS HERE -->
+<style type="text/css">
+body{
+
+background-image:url("resources/images/bg4.jpg") ;
+background-repeat:repeat;
+background-color:#40113f;
+font-family:"lucida sans unicode";
+font-size:11px;
+line-height:16px;
+text-align:justify;
+}
+</style>
 </head>
 <body>
 <center>
@@ -23,7 +43,7 @@ Creator : Olivia Benjamin
 		<ul>
                     <li><a href="HomePage.php">Home</a></li>
                     <li class = "last"><a href="#">Preview Page</a></li>
-                    <li class = "last"><a href="LogoutPage.php">Logout</a></li>
+                    <li class = "last"><a href="logout1.php">Logout</a></li>
                     
                 </ul>
 	</div>
@@ -41,23 +61,24 @@ Creator : Olivia Benjamin
 <!-- ============ LEFT COLUMN  ============== -->
 <td width="20%" valign="top" bgcolor="#C299C2">
 
-
-
-<h4>Welcome back</h4><h2>Name</h2>
-
-                                                <p>Apartment Address  
-                                                 <a href=#><small><u>edit info</u></small></a> 
-                                                </p>
-                                                <p>Business Number 
-                                                 <a href=#><small><u>edit info</u></small></a> 
-                                                </p>
-                                                <p>Contact Email 
-                                                 <a href=#><small><u>edit info</u></small></a> 
-                                                </p>
-                                                <p>Business Hours
-                                                 <a href=#><small><u>edit info</u></small></a> 
-                                                </p>
-                                                <p><a href="#" <size = small class="link-style">Publish</a></p>
+    <h4>Welcome back</h4><h2>'.$loggedInUser->displayname.'</h2>
+    <br>
+    <p>'.$loggedInUser->address.'<br>
+    '.$loggedInUser->city.','.$loggedInUser->state.' '.$loggedInUser->zipcode.
+    '<br><a href=#><small><u>edit info</u></small></a> 
+    </p>
+    <p>Business Number: <br>'.$contact_info[0]. 
+    ' <a href=#><small><u>edit info</u></small></a> 
+    </p>
+    <p>Contact Email: '.$contact_info[1]. 
+     ' <a href=#><small><u>edit info</u></small></a> 
+    </p>
+    <p>Business Hours
+    <p>Weekdays: '.$contact_info[2].'
+    Weekends: '.$contact_info[3].'</p>
+     <a href=#><small><u>edit info</u></small></a> 
+    </p>
+    <p><a href="#" <size = small class="link-style">Publish</a></p>
 </td>
 
 <!-- ============ RIGHT COLUMN (CONTENT) ============== -->
@@ -77,15 +98,12 @@ Creator : Olivia Benjamin
  <br>
   <a href=#><small><u>Change floor plan image</u></small></a></center>
  </p>
- <!-- floor plans image information stops here -->
+ <!-- floor plans image information stops here -->';
  
  
-
-
-<?php
 $con = mysql_connect("localhost", "root", "");
 
-if (isset($_POST['submit']))
+if (isset($_POST["submit"]))
 {
     if(getimagesize($_FILES ['images'] ['tmp_name'])== FALSE)
     { 
@@ -255,7 +273,7 @@ $dbLink->close();
       
 
 <head>
-<title>lANDLORD PAGE</title>
+<!--<title>lANDLORD PAGE</title>-->
 
 </head>
 </body>

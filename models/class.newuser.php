@@ -345,8 +345,11 @@ class Property extends User
         protected $zipcode;
         protected $owner;
         protected $submitter;
+        protected $weekday_hours;
+        protected $weekend_hours;
+        protected $contact_num;
                 
-	function __construct($user,$display,$pass,$email,$type,$address,$city,$state,$zipcode,$owner)
+	function __construct($user,$display,$pass,$email,$type,$address,$city,$state,$zipcode,$owner,$contact_num,$weekday_hours,$weekend_hours)
 	{
                 $this->username = $user;
                 
@@ -365,6 +368,10 @@ class Property extends User
                 $this->city = $city;
                 $this->state = $state;
                 $this->zipcode = $zipcode;
+                $this->weekday_hours = $weekday_hours;
+                $this->weekend_hours = $weekend_hours;
+                
+                $this->contact_num = $contact_num;
 		
 		if(usernameExists($this->username))
 		{
@@ -457,14 +464,15 @@ class Property extends User
 					title,
 					sign_up_stamp,
 					last_sign_in_stamp,
-					gender,
-					classification,
                                         owner_name,
 					type,
 					address,
 					city,
 					state,
-					zipcode
+					zipcode,
+                                        business_num,
+                                        business_hours_weekdays,
+                                        business_hours_weekends
 					)
 					VALUES (
 					?,
@@ -478,17 +486,18 @@ class Property extends User
 					'Property',
 					'".time()."',
 					'0',
-					'',
-					'',
                                         ?,
 					?,
 					?,
 					?,
 					?,
-					?
+					?,
+                                        ?,
+                                        ?,
+                                        ?
 					)");
 				
-				$stmt->bind_param("sssssisssssi", $this->username, $this->displayname, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->owner, $this->type, $this->address, $this->city, $this->state, $this->zipcode);
+				$stmt->bind_param("sssssisssssisss", $this->username, $this->displayname, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->owner, $this->type, $this->address, $this->city, $this->state, $this->zipcode, $this->contact_num, $this->weekday_hours, $this->weekend_hours);
 				$stmt->execute();
 				$inserted_id = $mysqli->insert_id;
 				$stmt->close();
@@ -509,75 +518,4 @@ class Property extends User
 		}
 	}
 }
-
-
-/*----------------------------------------------------------------------------------------------------------------------------------------------------
-Students Only!!!
-------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/*class Preferences extends Student{
-    public $major;
-    public $social;
-    public $sleep;
-    public $clean;
-    public $p_type;
-    public $p_rent;
-    public $p_sharing;
-    public $p_smoking;
-    protected $s_id;
-
-    function __construct($id) 
-    {
-            $s_id = $id;
-    }
-    
-    function set_preferences($s_id,$self_stmt,$major,$major_imp,$social,$social_imp,$sleep,$sleep_imp,$clean,$clean_imp,$p_type,$p_rent,$p_sharing,$p_smoking)
-    {
-        global $mysqli,$db_table_prefix;
-            
-            $stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."preferences (
-                s_id,
-                self_stmt,
-                major,
-		major_imp,
-                social,
-		social_imp,
-                sleep,
-		sleep_imp,
-                cleaning,
-		cleaning_imp,
-                p_type,
-                p_rent,
-                p_sharing,
-                p_smoking
-                )
-                VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-		?,
-		?,
-		?,
-		?,
-		?
-                )");
-            $stmt->bind_param("issisisisissss", $s_id, $self_stmt, $major, $major_imp, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp, $p_type, $p_rent, $p_sharing, $p_smoking);
-            $stmt->execute();
-            $inserted_id = $mysqli->insert_id;
-            $stmt->close();
-    }
-}*/
-
-/*class PersonalityQuiz extends Student {
-    protected $question1;
-    protected $question2;
-    protected $question3;
-    protected $question4;
-    protected $result;
-}*/
 ?>

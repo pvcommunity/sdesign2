@@ -4,6 +4,29 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
+// FOR LANDLORD PROFILES
+function get_contact_info($id)
+{
+    global $mysqli,$db_table_prefix;
+        
+        $stmt = $mysqli->prepare("SELECT 
+            business_num,
+            email,
+            business_hours_weekdays,
+            business_hours_weekends
+            FROM ".$db_table_prefix."users
+            WHERE 
+            id = ?
+            LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($contact_num,$email,$hours_weekdays,$hours_weekends);
+        while ($stmt->fetch()){
+            $row = array($social,$sleep,$clean,$type,$rent,$sharing,$smoking);
+        }
+        $stmt->close();
+        return ($row);
+}
 // FOR STUDENT PROFILES!!!
 function get_all_prefs($id)
 {
@@ -93,28 +116,62 @@ function get_user_pers_id($personality)
     return ($p_id);
 }
 
-function get_most_compatible($p_id)
+function get_compatible_personalities($personality,$compatibility)
 {
-    global $mysqli,$db_table_prefix;
-   
-     $stmt = $mysqli->prepare("SELECT
+   global $mysqli,$db_table_prefix;
+   /* $pers_id = get_user_pers_id($personality);
+    $stmt = $mysqli->prepare("SELECT
              pers2
              FROM ".$db_table_prefix."compatibility_key
              WHERE
-             pers1 = ? AND compatibility = 3
+             pv_compatibility_key.compatibility = ? AND
+             pv_compatibility_key.pers1 = ? 
              ");
-     $stmt->bind_param("i",$p_id);
+    $stmt->bind_param("ii",$pers_id,$compatibility);
+    $stmt->execute();
+    $stmt->bind_result($res);
+    while ($stmt->fetch($res)){
+       $row = array($res);
+    }
+    $stmt->close();
+    
+    for($i = 0; $i < count($row); $i++)
+    {
+        $stmt = $mysqli->prepare("SELECT
+             personality
+             FROM ".$db_table_prefix."personalities
+             WHERE
+             id = ?
+             ");
+        $stmt->bind_param("i",$row[$i]);
+        $stmt->execute();
+        $stmt->bind_result($res2);
+        while ($stmt->fetch()){
+           $result = array($res2);
+        }
+        $stmt->close();
+    }*/
+   $ret = array();
+    $stmt = $mysqli->prepare("SELECT
+             pv_personalities.personality
+             FROM ".$db_table_prefix."compatibility_key,".$db_table_prefix."personalities
+             WHERE
+             pv_compatibility_key.compatibility = ? AND
+             pv_compatibility_key.pers1 = ? AND
+             pv_compatibility_key.pers2 = pv_personalities.id
+             ");
+     $stmt->bind_param("ii",$pers_id,$compatibility);
      $stmt->execute();
-     $stmt->bind_result($p1);
-     while ($stmt->fetch()){
-        $row = array($p1);
+     $stmt->bind_result($res);
+     while ($row = $stmt->fetch_array()){
+        $ret['personality'];
      }
     $stmt->close();
     
-    $id = array($p_id);
-   $result = array_merge($id,$row);
+    $pers1 = array($personality);
+   $result = array_merge($pers1,$ret);
     
-    return ($result);
+    return($result);
 }
 
 function convert_id_to_pers($p_id)
@@ -155,6 +212,35 @@ function get_comp_personalities($user_personality)
     
     return ($compatible_personalities);
 }
+
+function get_prefs($id)
+{
+    global $mysqli,$db_table_prefix;
+        
+        $stmt = $mysqli->prepare("SELECT 
+                major,
+                major_imp,
+                social,
+                social_imp,
+                sleep,
+                sleep_imp,
+                cleaning,
+                cleaning_imp
+                FROM ".$db_table_prefix."preferences
+                WHERE 
+                s_id = ?
+                LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($major, $major_imp, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp);
+        while ($stmt->fetch()){
+            $row = array( array($major,$social,$sleep,$clean),
+                          array($major_imp,$social_imp,$sleep_imp,$clean_imp));
+        }
+        $stmt->close();
+        return ($row);
+}
+
 // Recently added
 // -----------------------------------------------------------------------------
 function check_user($user){

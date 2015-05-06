@@ -14,6 +14,7 @@ echo"
 <head>
 
 <title>Profile</title>
+<script src='vendors/jquery-1.11.1/jquery.min.js'></script>
 <style type='text/css'>
 body{
 
@@ -185,8 +186,32 @@ echo "
                 <br>
 		<i>$about_me[1]</i>
 		<br>
-		<a href=#><img src='resources/images/message.jpg' style='height:20px; width=30px'></a>       
-
+		
+		<div id='messaging' class='label'>
+		<a href=#1><img src='resources/images/message.jpg' style='height:20px; width=30px'></a>       
+	</div>
+		<div class= 'content'>
+			<a name='1'>$loggedInUser->email</a>
+		
+		</div>
+<!-- SCRIPT FOR MESSAGE BUTTON-->
+<script>
+	$('.content').hide();
+	$('.label').click(function()
+	{
+		
+		if ($('.content').is(':visible'))
+		{
+		$('.content').hide();
+		}
+		else
+		$('.content').show();
+		
+		$('.content').hide();
+		$(this).parent().children('.content').toggle();
+		
+	});
+</script>
 
 <h1>Personality Type</h1>
 <b>$personality</b>
