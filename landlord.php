@@ -41,9 +41,9 @@ text-align:justify;
  <!-- ============ MENU STARTS  ============== -->
     <div id="menu">
 		<ul>
-                    <li><a href="HomePage.php">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                     <li class = "last"><a href="#">Preview Page</a></li>
-                    <li class = "last"><a href="logout1.php">Logout</a></li>
+                    <li class = "last"><a href="logout-1.php">Logout</a></li>
                     
                 </ul>
 	</div>
@@ -255,10 +255,10 @@ else
  
 // Close the mysql connection
 $dbLink->close();
-?>
 
 
- <br> 
+echo 
+'<br> 
 <p><a href="#" <size = small class="link-style">Publish</a></p>
 </td>
 
@@ -276,4 +276,4 @@ $dbLink->close();
 <!--<title>lANDLORD PAGE</title>-->
 
 </head>
-</body>
+</body>';

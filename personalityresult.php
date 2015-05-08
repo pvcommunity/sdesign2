@@ -8,7 +8,6 @@ if(!securePage($_SERVER['PHP_SELF'])){die();}
 <!doctype html>
 <html>
 <head>
-<head>
     <link rel='stylesheet' type='text/css' href='resources/css/PersonalityQuiz.css'</link>
 <style type="text/css">
  .QRP { cursor:hand; cursor:pointer;
@@ -70,9 +69,6 @@ body {
 
 </style>
 
-
-
-
 <script type="text/javascript">
 function toggle(Info) {
   var CState = document.getElementById(Info);
@@ -81,6 +77,7 @@ function toggle(Info) {
 }
 
 </script>
+<title>Personality Result</title>
 </head>
 <body>
 <div class='container'>
@@ -118,68 +115,12 @@ function toggle(Info) {
 
 $Quizresults = get_pers_for_profile($id);
 $pers_id = get_user_pers_id($Quizresults);
-
-
-
-
-/*$dbhost = 'localhost';
-$dbuser = 'root';
-$dbpass = '';
-$conn = mysql_connect($dbhost, $dbuser, $dbpass);
-mysql_select_db('PV_5.0');
-$q1 = "SELECT
-             pers2
-             FROM pv_compatibility_key
-             WHERE
-             pv_compatibility_key.compatibility = 3 AND
-             pv_compatibility_key.pers1 = '$Quizresults' 
-             ";
-
-$result = mysql_query($q1,$conn);
-$dbarray1 = mysql_fetch_array($result);
-print_r($dbarray1);*/
-
-//$compatible_pers = get_comp_personalities($Quizresults);
-echo"<center>";
-echo " <div>";
+$compatible_personalities = get_compatible_personalities($pers_id,3);
+$compatible_personalities[3]['personality'] = $Quizresults;
 
 echo "<div id='results'> Your result is </div>";
-echo "<div id='results' name='results'>$Quizresults </div>";
-
-$dbhost = 'localhost';
-$dbuser = 'root';
-$dbpass = '';
-$dbname = 'PV_5.0';
-// Create connection
-$conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
-$sql = "SELECT
-              pv_personalities.personality
-             FROM pv_compatibility_key, pv_personalities
-             WHERE
-             pv_compatibility_key.compatibility = 3 AND
-             pv_compatibility_key.pers1 = '$pers_id' AND
-             pv_compatibility_key.pers2 = pv_personalities.id    
-             ";
-$result = $conn->query($sql);
-
-echo 'Most compatible: ';
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-       $id_array[] = $row;
-       echo $row['personality'].", ";
-    } echo $Quizresults;
-} else {
-    echo "0 results";
-}
-
-$conn->close();
-print_r($id_array);
+echo "<div id='results' name='results'>$Quizresults </div><br>";
+echo 'Most compatible = '.$compatible_personalities[0]['personality'].', '.$compatible_personalities[1]['personality'].', '.$compatible_personalities[2]['personality'].', '.$compatible_personalities[3]['personality'];
 
 // INSERT STANDARD USERCAKE CONNECTION ** UNCOMMMENT 
  //require_once("models/config.php"); 
@@ -286,7 +227,7 @@ while ( $row = mysqli_fetch_assoc($retval, MYSQL_ASSOC))
 
  
 echo"</center>";
-echo "</div>"; 
+//echo "</div>"; 
  ?>   
 <?php
   echo"<br> 

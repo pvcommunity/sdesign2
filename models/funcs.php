@@ -22,11 +22,12 @@ function get_contact_info($id)
         $stmt->execute();
         $stmt->bind_result($contact_num,$email,$hours_weekdays,$hours_weekends);
         while ($stmt->fetch()){
-            $row = array($social,$sleep,$clean,$type,$rent,$sharing,$smoking);
+            $row = array($contact_num,$email,$hours_weekdays,$hours_weekends);
         }
         $stmt->close();
         return ($row);
 }
+
 // FOR STUDENT PROFILES!!!
 function get_all_prefs($id)
 {
@@ -72,6 +73,130 @@ function get_about_me($id)
             $row = array($major,$self_stmt);
         }
         $stmt->close();
+        
+        switch($row[0])
+        {
+            case 1: $row[0] = "Accounting";
+                break;
+            case 2: $row[0] = "Agriculture";
+                break;
+            case 3: $row[0] = "Agriculture-Economics";
+                break;
+            case 4: $row[0] = "Animal Science";
+                break;
+            case 5: $row[0] = "Architecture";
+                break;
+            case 6: $row[0] = "Biology";
+                break;
+            case 7: $row[0] = "Chemical Engineering";
+                break;
+            case 8: $row[0] = "Chemistry";
+                break;
+            case 9: $row[0] = "Civil Engineering";
+                break;
+            case 10: $row[0] = "Clinical Adolescent Psychology";
+                break;
+            case 11: $row[0] = "Communications";
+                break;
+            case 12: $row[0] = "Community Development";
+                break;
+            case 13: $row[0] = "Computer Engineering";
+                break;
+            case 14: $row[0] = "Computer Engineering Technology";
+                break;
+            case 15: $row[0] = "Computer Information Systems";
+                break;
+            case 16: $row[0] = "Computer Science";
+                break;
+            case 17: $row[0] = "Construction Science";
+                break;
+            case 18: $row[0] = "Counseling";
+                break;
+            case 19: $row[0] = "Criminal Justice-Juvenile Justice";
+                break;
+            case 20: $row[0] = "Criminal Justice";
+                break;
+            case 21: $row[0] = "Curriculum and Instruction";
+                break;
+            case 22: $row[0] = "Curriculum and Instruction-Reading Education";
+                break;
+            case 23: $row[0] = "Drama";
+                break;
+            case 24: $row[0] = "Educational Administration";
+                break;
+            case 25: $row[0] = "Educational Leadership";
+                break;
+            case 26: $row[0] = "Electrical Engineering";
+                break;
+            case 27: $row[0] = "Electrical Engineering Technology";
+                break;
+            case 28: $row[0] = "Engineering";
+                break;
+            case 29: $row[0] = "English";
+                break;
+            case 30: $row[0] = "Family and Community Services";
+                break;
+            case 31: $row[0] = "Finance";
+                break;
+            case 32: $row[0] = "General Business Administration";
+                break;
+            case 33: $row[0] = "Health";
+                break;
+            case 34: $row[0] = "Health and Physical Education-Health";
+                break;
+            case 35: $row[0] = "Health and Physical Education-Physical Education";
+                break;
+            case 36: $row[0] = "History";
+                break;
+            case 37: $row[0] = "Human Nutrition and Food";
+                break;
+            case 38: $row[0] = "Human Performance";
+                break;
+            case 39: $row[0] = "Human Sciences";
+                break;
+            case 40: $row[0] = "Interdisciplinary Studies";
+                break;
+            case 41: $row[0] = "Juvenile Forensic Psychology";
+                break;
+            case 42: $row[0] = "Juvenile Justice";
+                break;
+            case 43: $row[0] = "Management";
+                break;
+            case 44: $row[0] = "Management Information Systems";
+                break;
+            case 45: $row[0] = "Marketing";
+                break;
+            case 46: $row[0] = "Mathematics";
+                break;
+            case 47: $row[0] = "Mechanical Engineering";
+                break;
+            case 48: $row[0] = "Music";
+                break;
+            case 49: $row[0] = "Nursing";
+                break;
+            case 50: $row[0] = "Nurse Administration";
+                break;
+            case 51: $row[0] = "Nurse Education";
+                break;
+            case 52: $row[0] = "Nurse Practitioner";
+                break;
+            case 53: $row[0] = "Physics";
+                break;
+            case 54: $row[0] = "Political Science";
+                break;
+            case 55: $row[0] = "Psychology";
+                break;
+            case 56: $row[0] = "Social Work";
+                break;
+            case 57: $row[0] = "Sociology";
+                break;
+            case 58: $row[0] = "Soil Science";
+                break;
+            case 59: $row[0] = "Spanish";
+                break;
+            case 60: $row[0] = "Special Education";
+                break;
+        }
         return ($row);
 }
 
@@ -116,62 +241,38 @@ function get_user_pers_id($personality)
     return ($p_id);
 }
 
-function get_compatible_personalities($personality,$compatibility)
+function get_compatible_personalities($personality_id,$compatibility)
 {
-   global $mysqli,$db_table_prefix;
-   /* $pers_id = get_user_pers_id($personality);
-    $stmt = $mysqli->prepare("SELECT
-             pers2
-             FROM ".$db_table_prefix."compatibility_key
-             WHERE
-             pv_compatibility_key.compatibility = ? AND
-             pv_compatibility_key.pers1 = ? 
-             ");
-    $stmt->bind_param("ii",$pers_id,$compatibility);
-    $stmt->execute();
-    $stmt->bind_result($res);
-    while ($stmt->fetch($res)){
-       $row = array($res);
+    $dbhost = 'localhost';
+    $dbuser = 'root';
+    $dbpass = '';
+    $dbname = 'PV_5.0';
+    // Create connection
+    $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
+
+    $sql = "SELECT
+            pv_personalities.personality
+            FROM pv_compatibility_key, pv_personalities
+            WHERE
+            pv_compatibility_key.compatibility = '$compatibility' AND
+            pv_compatibility_key.pers1 = '$personality_id' AND
+            pv_compatibility_key.pers2 = pv_personalities.id    
+            ";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+           $id_array[] = $row;
+        } 
     }
-    $stmt->close();
     
-    for($i = 0; $i < count($row); $i++)
-    {
-        $stmt = $mysqli->prepare("SELECT
-             personality
-             FROM ".$db_table_prefix."personalities
-             WHERE
-             id = ?
-             ");
-        $stmt->bind_param("i",$row[$i]);
-        $stmt->execute();
-        $stmt->bind_result($res2);
-        while ($stmt->fetch()){
-           $result = array($res2);
-        }
-        $stmt->close();
-    }*/
-   $ret = array();
-    $stmt = $mysqli->prepare("SELECT
-             pv_personalities.personality
-             FROM ".$db_table_prefix."compatibility_key,".$db_table_prefix."personalities
-             WHERE
-             pv_compatibility_key.compatibility = ? AND
-             pv_compatibility_key.pers1 = ? AND
-             pv_compatibility_key.pers2 = pv_personalities.id
-             ");
-     $stmt->bind_param("ii",$pers_id,$compatibility);
-     $stmt->execute();
-     $stmt->bind_result($res);
-     while ($row = $stmt->fetch_array()){
-        $ret['personality'];
-     }
-    $stmt->close();
-    
-    $pers1 = array($personality);
-   $result = array_merge($pers1,$ret);
-    
-    return($result);
+    $conn->close();
+    return($id_array);
 }
 
 function convert_id_to_pers($p_id)
@@ -194,24 +295,6 @@ function convert_id_to_pers($p_id)
     return ($pers);
 }
 
-function get_comp_personalities($user_personality)
-{
-    $p_id = get_user_pers_id($user_personality);
-    $compatible_ids = get_most_compatible($p_id);
-    
-    $p1 = convert_id_to_pers($compatible_ids[0]);
-    $p2 = convert_id_to_pers($compatible_ids[1]);
-    //$p3 = convert_id_to_pers($compatible_ids[2]);
-    //$p4 = convert_id_to_pers($compatible_ids[3]);
-    
-    $compatible_personalities = array($p1,$p2/*,$p3,$p4*/);
-    /*for($i=0;$i<count($compatible_ids);$i++)
-    {
-        $compatible_personalities = convert_id_to_pers($compatible_ids[$i]);
-    }*/
-    
-    return ($compatible_personalities);
-}
 
 function get_prefs($id)
 {
