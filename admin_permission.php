@@ -235,7 +235,7 @@ text-decoration:none;
 h1{
 font-family:'century gothic';
 font-size:22px;
-text-align:left;
+text-align:center;
 letter-spacing:0px;
 color:#40113f;
 border-bottom:2px dotted #dfc326;
@@ -254,7 +254,7 @@ padding-bottom:4px;
 <div class='header'>
 <img src='resources/images/profile.jpg'> 
 </div>
-
+<center><h1>Administration Permissions</h1></center>
 <div class='navigation'>
 <a class='nav' href='account.php'>Account Home</a>
 <a class='nav' href='user_settings.php'>User Settings</a>

@@ -108,8 +108,8 @@ and open the template in the editor.
                 <div class="col-sm-4">
                     
                     <center>
-                    <img src="http://i62.tinypic.com/2mgppab.jpg" alt="will replace with asley. only for testing purposes" style="height:150px; width:150px;"> &emsp;&emsp;
-                        <img  src="http://i62.tinypic.com/2mgppab.jpg" alt="">&emsp;&emsp;
+                    <img src="resources/images/ashley.png" alt="will replace with asley. only for testing purposes" style="height:150px; width:150px;"> &emsp;&emsp;
+                    <img  src="resources/images/olivia.jpg" alt=""style="height:150px; width:150px;">&emsp;&emsp;
                         <img class="img-responsive" src="http://i62.tinypic.com/2ev409z.jpg" alt="">
                        <h3>
                            Ashley B &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; Olivia B &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; Jalisa P <br>

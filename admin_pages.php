@@ -67,7 +67,7 @@ left:50%;
 margin-left:-392px;
 top:0px;
 width:775px;
-height:1000px;
+/*height:1160px;*/
 background-image:url('resources/images/white.jpg');
 background-repeat:repeat;
 
@@ -175,7 +175,7 @@ text-decoration:none;
 h1{
 font-family:'century gothic';
 font-size:22px;
-text-align:left;
+text-align:center;
 letter-spacing:0px;
 color:#40113f;
 border-bottom:2px dotted #dfc326;
@@ -194,6 +194,8 @@ padding-bottom:4px;
 <div class='header'>
 <img src='resources/images/profile.jpg'> 
 </div>
+<br>
+<center><h1>Administration Pages</h1></center>
 
 <div class='navigation'>
 <a class='nav' href='account.php'>Account Home</a>

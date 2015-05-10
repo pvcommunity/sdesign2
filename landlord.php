@@ -52,7 +52,7 @@ text-align:justify;
     
 <td colspan="3" style="height: 200px;" bgcolor="#E0E0D1">
   <a href=# align="left"><small>Change Logo Image</small></a>
-   <center><img  src="https://imageshack.com/i/p1sX7984j" alt="Complex picture" height="250" width="1170" > </center>   
+   <center><img  src="resources/images/banner.jpg" alt="Complex picture" height="250" width="1170" > </center>   
    
 </td></tr>
     
@@ -94,7 +94,7 @@ text-align:justify;
         <li>Water</li>
         <li>Electricity</li><ul> <a href=#><small><u>edit info</u></small></a> </p>
 <!-- floor plans image information starts here -->
-        <center><img  src="https://imageshack.com/i/p1HthunXj" alt="profilepic" height="350" width="350" border="5">
+        <center><img  src="resources/images/floorplan1.jpg" alt="profilepic" height="350" width="350" border="5">
  <br>
   <a href=#><small><u>Change floor plan image</u></small></a></center>
  </p>
@@ -122,7 +122,7 @@ displayimage();
 function saveimage($name, $images)
 { 
     $con = mysql_connect("localhost", "root", ""); 
-    mysql_select_db('testdb', $con); // change this information to our database 
+    mysql_select_db('PV_5.0', $con); // change this information to our database 
     $qry = " insert into images(name, images) value ('$name', '$images')"; 
     $result = mysql_query($qry, $con);
     if ($result)
@@ -137,7 +137,7 @@ function saveimage($name, $images)
 function displayimage() 
 { 
     $con = mysql_connect("localhost", "root", ""); 
-    mysql_select_db('testdb', $con); // change this information to our database 
+    mysql_select_db('PV_5.0', $con); // change this information to our database 
     $qry = " select * from images"; 
     $result = mysql_query($qry, $con);
     while($row = mysql_fetch_array($result))
@@ -182,7 +182,15 @@ function displayimage()
 <!-- floor plans image information stops here -->
 </form> 
  <br></div>
-<p><a href="#" <size = small class="link-style">Publish</a></p>
+<center> <h2> Amenities</h2> <br> </center>
+    <list> Cable <br>
+    Internet <br>
+    Appliances: Wash & Dryer, Microwave, & Oven<br>
+    Fully Furnished <br>
+    Wooden Floors <br>
+    </list><br><br>
+    
+    
 </td>
 
 
@@ -204,7 +212,7 @@ function displayimage()
 $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = '';
-$dbLink = new mysqli('localhost', $dbuser, $dbpass, 'testdb');
+$dbLink = new mysqli('localhost', $dbuser, $dbpass, 'PV_5.0');
 
 if(mysqli_connect_errno()) {
     die("MySQL connection failed: ". mysqli_connect_error());

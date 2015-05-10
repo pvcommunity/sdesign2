@@ -9,21 +9,40 @@ if(!securePage($_SERVER['PHP_SELF'])){die();}
 
     <head>
         <SCRIPT LANGUAGE="JavaScript">
+<SCRIPT LANGUAGE="JavaScript">
+
 <!-- This script generated free online at -->
+
 <!-- Wilsoninfo http://www.wilsoninfo.com -->
-   < !--Begin;
-            function popUp(URL) {
-                day = new Date();
-                id = day.getTime();
-                eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=700,height=750,left = 450,top = 75');");
-            }
-            // End -->
-        </script>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="vendors/bootstrap-3.2.0/css/bootstrap.min.css">
-        <script src="vendors/jquery-1.11.1/jquery.min.js"></script>
-        <script src="vendors/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+
+
+
+
+<!-- Begin
+
+function popUp(URL) {
+
+day = new Date();
+
+id = day.getTime();
+
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=700,height=750,left = 450,top = 75');");
+
+}
+
+// End -->
+
+</script>
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         
         <style>
             body {
@@ -43,7 +62,7 @@ if(!securePage($_SERVER['PHP_SELF'])){die();}
         <!-- Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
-
+        <title>Personality Quiz</title>
         </head>
 
 
@@ -214,30 +233,30 @@ echo "<div id='results'><big><bold><h1>$quizresults </big></bold></h1></div>";
                             <label>Select the option that best describes you?</label> <br>
                             <input type="radio" name="question1" id ="question1" value="E" >Extrovert
                             <input type="radio" name="question1" id ="question1" value="I" >Introvert
-                            <input type=button value="Help" href="#Question1"onClick="javascript:popUp('personalityhelp.php')"/>
+                             <!--<input type="button" value="Help" href="#Question1"onClick="javascript:popUp('personalityhelp.php')"/>-->
                             <br>
                             <br>
                             <legend> Question Two </legend>
                             <label>What kind of information do you naturally notice and remember?</label> <br>
                             <input type="radio" name="question2" id ="question2" value="S" >Sensor
                             <input type="radio" name="question2" id ="question2" value="N" >Intuitive
-                            <input type=button value="Help" href="#Question2"onClick="javascript:popUp('personalityhelp.php')"/>
+                            <!--<input type=button value="Help" href="#Question2"onClick="javascript:popUp('personality-help.php')"/>-->
                             <br>
                             <br>
                             <legend> Question Three </legend>
                             <label> How do you decide or come to conclusions?</label> <br>
                             <input type="radio" name="question3" id ="question3" value="T" >Thinker
                             <input type="radio" name="question3" id ="question3" value="F" >Feeler
-                            <input type=button value="Help" href="#Question3"onClick="javascript:popUp('personalityhelp.php')"/>
+                            <!--<input type=button value="Help" href="#Question3"onClick="javascript:popUp('personality-help.php')"/>-->
                             <br>
                             <br>
                             <legend> Question Four: </legend>
                             <label>What kind of environment makes you the most comfortable?</label> <br>
                             <input type="radio" name="question4" id ="question4" value="J" >Judger
                             <input type="radio" name="question4" id ="question4" value="P" >Perceiver
-                            <input type=button value="Help" href="#Question4"onClick="javascript:popUp('personalityhelp.php')"/>
+                            <!--<input type=button value="Help" href="#Question4"onClick="javascript:popUp('personality-help.php')"/>-->
                             <br>
-                            <button class="next">next</button>
+                            <!--<button class="next">next</button>-->
                             <br>
 
                             <input type="submit" name="submit" id ="submit" value="Get Results"  />

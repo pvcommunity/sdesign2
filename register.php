@@ -8,7 +8,18 @@ require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //Prevent the user visiting the logged in page if he/she is already logged in
-if(isUserLoggedIn()) { header("Location: account.php"); die(); }
+if(isUserLoggedIn()) { 
+     
+    $title = check_user($loggedInUser->username);
+    $id = fetchUserId($loggedInUser->username);
+    
+    switch($title){
+        case "Administrator": header("Location: account.php?id=".$id.""); break;
+        case "Student": header("Location: student.php?id=".$id.""); break;
+        case "Property": header("Location: landlord.php?id=".$id.""); break;
+    }
+    die();
+}
 
 //Forms posted
 if(!empty($_POST))
@@ -80,7 +91,7 @@ if(!empty($_POST))
 	}
 }
 
-require_once("models/header.php");
+/*require_once("models/header.php");
 echo "
 <body>
 <div id='wrapper'>
@@ -94,7 +105,42 @@ include("left-nav.php");
 echo "
 </div>
 
-<div id='main'>";
+<div id='main'>";*/
+echo "
+<head>
+<title>Register</title>
+<link rel='stylesheet' type='text/css' href='resources/css/Registration (2).css'>
+<link rel='stylesheet' type='text/css' href='resources/css/AssembledStylesheet.css'>
+<link rel='stylesheet' type='text/css' href='resources/css/Notifications.css'>
+<script type='text/javascript' src='models/funcs.js'></script>
+
+<style>
+body {
+    background: #660066 url('resources/images/bg4.jpg') repeat;
+}
+</style>
+</head>
+<body>
+
+<div id='container'>
+
+<div class='header'>
+</div>
+";
+
+require 'models/site-templates/top.php';
+
+echo"<br>
+    <div id='main'><center>
+<div class='container' id='container1'>
+        <div class='row centered-form'>
+            <div class='col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4'>
+                <div class='panel panel-default' style='width:350px;'>
+                    <div class='panel-heading'>
+                        <h3 class='panel-title text-center'>Admin Registration</h3>
+                    </div>
+                     <div class='panel-body'>
+                            <div class='form-group'>";
 
 echo resultBlock($errors,$successes);
 
@@ -104,30 +150,30 @@ echo "
 
 <p>
 <label>User Name:</label>
-<input type='text' name='username' />
+<input type='text' name='username' class='form-control input-sm' required />
 </p>
 <p>
 <label>Display Name:</label>
-<input type='text' name='displayname' />
+<input type='text' name='displayname' class='form-control input-sm' required />
 </p>
 <p>
 <label>Password:</label>
-<input type='password' name='password' />
+<input type='password' name='password' class='form-control input-sm' required />
 </p>
 <p>
 <label>Confirm:</label>
-<input type='password' name='passwordc' />
+<input type='password' name='passwordc' class='form-control input-sm' required />
 </p>
 <p>
 <label>Email:</label>
-<input type='text' name='email' />
+<input type='text' name='email' class='form-control input-sm' required />
 </p>
 <p>
 <label>Security Code:</label>
 <img src='models/captcha.php'>
 </p>
 <label>Enter Security Code:</label>
-<input name='captcha' type='text'>
+<input name='captcha' type='text' class='form-control input-sm' required />
 </p>
 <label>&nbsp;<br>
 <input type='submit' value='Register'/>

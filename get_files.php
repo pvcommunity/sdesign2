@@ -13,7 +13,7 @@ $dbpass = '';
     }
     else {
         // Connect to the database
-        $dbLink = new mysqli('localhost', $dbuser, $dbpass, 'testdb');
+        $dbLink = new mysqli('localhost', $dbuser, $dbpass, 'PV_5.0');
         if(mysqli_connect_errno()) {
             die("MySQL connection failed: ". mysqli_connect_error());
         }

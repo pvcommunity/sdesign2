@@ -1,4 +1,10 @@
-    
+ <?php
+
+require_once("models/config.php");
+if(!securePage($_SERVER['PHP_SELF'])){die();}
+
+    $id = $_REQUEST["id"];
+?>   
 <!DOCTYPE html>
 <html lang='en'>
 
@@ -101,67 +107,59 @@ if (isset($_POST ['submit']))
     {
     // connect to database
    
-    mysql_connect("localhost","root","");
-    mysql_select_db("PV_5.0");
-    $category = $_POST['category'];
-    $criteria = $_POST['criteria'];
+   $dbhost = 'localhost';
+    $dbuser = 'root';
+    $dbpass = '';
+    $dbname = 'PV_5.0';
+    // Create connection
+    $mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
 
     // what they type in the text box
-    $sql = mysql_query("SELECT * FROM personalityresults WHERE $category LIKE '%".$criteria."%'");
+    $query = "SELECT `pv_users`.`display_name`,`pv_users`.`email`,`pv_suggested_users`.`count`
+     FROM `pv_suggested_users`,`pv_users`
+     WHERE ((`pv_suggested_users`.`s_id` = '$id') AND (`pv_suggested_users`.`su_id` = `pv_users`.`id`))
+     ";
+
     
-    $Quizresults = 'quizresults';
-    $Firstname = 'Firstname';
-    $Lastname = 'Lastname';
-     if (mysql_num_rows($sql) == 0)
-              
-      {
-     echo"<table id='keywords' cellspacing='0' cellpadding='0'>";
-    echo"<tr>
-     <thead>   
-    <th> First name</th><th>Last name</th>
-    <th>Match Percentage </th></tr>
-    </thead>";    
-         echo"<tr><td>";
-        echo "No Matches Found";
-       echo "</td><td>";
-         echo "No Matches Found";
-       echo "</td><td>";
-        echo "No Matches Found";
-       echo "</td><tr>";
-       echo"";
- echo"</table>"; 
-      }
- else {
     echo"<table id='keywords' cellspacing='0' cellpadding='0'>";
     echo"<tr>
      <thead>   
-    <th> First name</th><th>Last name</th>
-    <th>Quiz Results </th></tr>
+    <th> Name</th><th>Email</th>
+    <th>Compatibility</th></tr>
     </thead>";
-    while($row = mysql_fetch_array($sql))
-    {
-        
-     
-          
+ 
+   
+    $result = $mysqli->query($query);
+    if ($result->num_rows > 0) {
+         echo "Peyton Manning";
+           echo "</td><td>";
+             echo "pmanning@student.pvamu.edu"; 
+           echo "</td><td>";
 
-      // query goes here 
-       echo"<tr><td>";
+            echo "(11*5)";echo"%";
+            
+           echo "</td><tr>";
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+               $sugg_user[] = $row;
+               echo"<tr><td>";
      
-        echo $row[$Firstname];
-       echo "</td><td>";
-         echo $row[$Lastname]; 
-       echo "</td><td>";
-      
-        echo rand(65,100);echo"%";
-       echo "</td><tr>";
+            echo $sugg_user[0]['display_name'];
+           echo "</td><td>";
+             echo $sugg_user[0]['email']; 
+           echo "</td><td>";
+
+            echo ($sugg_user[0]['count']*5);echo"%";
+           echo "</td><tr>";
+                } 
+        }
         
-    }
     echo"";
  echo"</table>"; 
  }
  
    // mysql_close($con);
-    }
+    
                                 
  ?>                                         
                        

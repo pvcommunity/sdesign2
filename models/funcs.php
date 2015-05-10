@@ -275,6 +275,44 @@ function get_compatible_personalities($personality_id,$compatibility)
     return($id_array);
 }
 
+function get_id_from_pers_result($pers_id,$compatibility)
+{
+    $dbhost = 'localhost';
+    $dbuser = 'root';
+    $dbpass = '';
+    $dbname = 'PV_5.0';
+    // Create connection
+    $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+    
+    $compatible_personalities = get_compatible_personalities($pers_id,$compatibility);
+    if($compatibility == 3)
+    {
+        $compatible_personalities[3]['personality'] = get_pers_for_profile($pers_id);
+    }
+    
+    for($i=0; $i <count($compatible_personalities); $i++)
+    {
+        $pers = $compatible_personalities[$i]['personality'];
+        $sql = "SELECT
+                s_id
+                FROM pv_personality_quiz
+                WHERE
+                personality_result = '$pers'   
+                ";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+               $sugg_users_id[] = $row;
+            } 
+        }
+    }
+    
+    $conn->close();
+    return($sugg_users_id);
+}
+
 function convert_id_to_pers($p_id)
 {
     global $mysqli,$db_table_prefix;
@@ -296,34 +334,53 @@ function convert_id_to_pers($p_id)
 }
 
 
-function get_prefs($id)
+function get_user_prefs($id)
 {
-    global $mysqli,$db_table_prefix;
-        
-        $stmt = $mysqli->prepare("SELECT 
-                major,
-                major_imp,
-                social,
-                social_imp,
-                sleep,
-                sleep_imp,
-                cleaning,
-                cleaning_imp
-                FROM ".$db_table_prefix."preferences
-                WHERE 
-                s_id = ?
-                LIMIT 1");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $stmt->bind_result($major, $major_imp, $social, $social_imp, $sleep, $sleep_imp, $clean, $clean_imp);
-        while ($stmt->fetch()){
-            $row = array( array($major,$social,$sleep,$clean),
-                          array($major_imp,$social_imp,$sleep_imp,$clean_imp));
-        }
-        $stmt->close();
-        return ($row);
+    $dbhost = 'localhost';
+    $dbuser = 'root';
+    $dbpass = '';
+    $dbname = 'PV_5.0';
+    // Create connection
+    $mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+    
+    $query = "SELECT s_id, major, major_imp, social,social_imp, sleep, sleep_imp, cleaning, cleaning_imp
+        FROM pv_preferences
+        WHERE s_id ='$id'";
+    $result = $mysqli->query($query);
+    echo 'Student Results:';
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+           $user[] = $row;
+        } 
+    $mysqli->close();   
+        return($user);
 }
 
+function get_sugg_user_prefs($id)
+{
+    $dbhost = 'localhost';
+    $dbuser = 'root';
+    $dbpass = '';
+    $dbname = 'PV_5.0';
+    // Create connection
+    $mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+    
+    $query = "SELECT s_id, major, major_imp, social,social_imp, sleep, sleep_imp, cleaning, cleaning_imp
+        FROM pv_preferences
+        WHERE s_id ='$id'";
+    $result = $mysqli->query($query);
+    //echo 'Student Results:';
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+           $sugg_users[] = $row;
+        } 
+    }
+        $mysqli->close();
+        return($sugg_users);
+}
+}
 // Recently added
 // -----------------------------------------------------------------------------
 function check_user($user){
